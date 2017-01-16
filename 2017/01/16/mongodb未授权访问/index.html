@@ -15,16 +15,16 @@
 
 
 
-<meta name="description" content="testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest">
+<meta name="description" content="截止本周三（1月11日），已经有20名以上的黑客加入到这场对MongoDB用户一边倒的碾压中来，遭到入侵、勒索的数据库超过了33，000个，并且这一数字还在不断上升中。（源自凯捷咨询的Niall Merrigan提供的数据）MongoDB是目前包括eBay，纽约时报，LinkedIn在内的全世界多家公司广泛采用的数据库。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="大量mongodb被挟持分析">
+<meta property="og:title" content="大量Mongodb被挟持原因分析">
 <meta property="og:url" content="http://wkh.dropsec.xyz/2017/01/16/mongodb未授权访问/index.html">
 <meta property="og:site_name" content="drops0hong's Blog">
-<meta property="og:description" content="testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest">
-<meta property="og:updated_time" content="2017-01-16T09:39:43.194Z">
+<meta property="og:description" content="截止本周三（1月11日），已经有20名以上的黑客加入到这场对MongoDB用户一边倒的碾压中来，遭到入侵、勒索的数据库超过了33，000个，并且这一数字还在不断上升中。（源自凯捷咨询的Niall Merrigan提供的数据）MongoDB是目前包括eBay，纽约时报，LinkedIn在内的全世界多家公司广泛采用的数据库。">
+<meta property="og:updated_time" content="2017-01-16T12:22:08.238Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="大量mongodb被挟持分析">
-<meta name="twitter:description" content="testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest">
+<meta name="twitter:title" content="大量Mongodb被挟持原因分析">
+<meta name="twitter:description" content="截止本周三（1月11日），已经有20名以上的黑客加入到这场对MongoDB用户一边倒的碾压中来，遭到入侵、勒索的数据库超过了33，000个，并且这一数字还在不断上升中。（源自凯捷咨询的Niall Merrigan提供的数据）MongoDB是目前包括eBay，纽约时报，LinkedIn在内的全世界多家公司广泛采用的数据库。">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -56,7 +56,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>大量mongodb被挟持分析 | drops0hong&#39;s Blog</title>
+<title>大量Mongodb被挟持原因分析 | drops0hong&#39;s Blog</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -287,7 +287,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      大量mongodb被挟持分析
+      大量Mongodb被挟持原因分析
     </h1>
   
 
@@ -312,7 +312,22 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p></p><p>testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest</p><br><a id="more"></a><p></p>
+        <blockquote>
+<p>截止本周三（1月11日），已经有20名以上的黑客加入到这场对MongoDB用户一边倒的碾压中来，遭到入侵、勒索的数据库超过了33，000个，并且这一数字还在不断上升中。（源自凯捷咨询的Niall Merrigan提供的数据）MongoDB是目前包括eBay，纽约时报，LinkedIn在内的全世界多家公司广泛采用的数据库。<br><a id="more"></a></p>
+<h3 id="0X00-缘由"><a href="#0X00-缘由" class="headerlink" title="0X00 缘由"></a>0X00 缘由</h3><p>上周各漏洞平台爆出大量Mongodb数据库被入侵，他们通过删除数据勒索用户。这种入侵就发生在我身边，一学长的Mongodb总是莫名奇妙的少数据，通过排查原来是Mongodb有问题。</p>
+<h3 id="0X01-漏洞原因"><a href="#0X01-漏洞原因" class="headerlink" title="0X01 漏洞原因"></a>0X01 漏洞原因</h3><p>在刚安装完毕的时候MongoDB都默认有一个admin数据库,此时admin数据库是空的,没有记录权限相关的信息！当admin.system.users一个用户都没有时，即使mongod启动时添加了–auth参数,如果没有在admin数据库中添加用户,此时不进行任何认证还是可以做任何操作(不管是否是以–auth 参数启动),直到在admin.system.users中添加了一个用户。加固的核心是只有在admin.system.users中添加用户之后，mongodb的认证,授权服务才能生效，同时新安装的Mongodb会把27017暴露到公网上，也让攻击者有机可乘。</p>
+<h3 id="0x02-漏洞利用"><a href="#0x02-漏洞利用" class="headerlink" title="0x02 漏洞利用"></a>0x02 漏洞利用</h3><p><strong>漏洞扫描脚本：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line">import socket</div><div class="line">import sys</div><div class="line">import pymongo</div><div class="line">&apos;&apos;&apos;</div><div class="line">hint:python mongodb.py startIP endIp</div><div class="line">&apos;&apos;&apos; </div><div class="line">ipcons = []</div><div class="line">def Scanner(ip):</div><div class="line">    global ipcons</div><div class="line">    sk = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</div><div class="line">    sk.settimeout(0.3)</div><div class="line">    try:</div><div class="line">        sk.connect((ip,27017))</div><div class="line">        ipcons.append(ip)</div><div class="line">        sk.close()</div><div class="line">    except Exception:</div><div class="line">        pass</div><div class="line">  </div><div class="line">def ip2num(ip):</div><div class="line">    ip=[int(x) for x in ip.split(&apos;.&apos;)]</div><div class="line">    return ip[0] &lt;&lt;24 | ip[1]&lt;&lt;16 | ip[2]&lt;&lt;8 |ip[3]</div><div class="line">      </div><div class="line">def num2ip(num):</div><div class="line">    return &apos;%s.%s.%s.%s&apos; %( (num &amp; 0xff000000) &gt;&gt;24,</div><div class="line">                                (num &amp; 0x00ff0000) &gt;&gt;16,</div><div class="line">                                (num &amp; 0x0000ff00) &gt;&gt;8,</div><div class="line">                                num &amp; 0x000000ff )</div><div class="line">      </div><div class="line">def get_ip(ip):</div><div class="line">    start,end = [ip2num(x) for x in ip.split(&apos; &apos;) ]</div><div class="line">    return [ num2ip(num) for num in range(start,end+1) if num &amp; 0xff ]</div><div class="line">      </div><div class="line">startIp = sys.argv[1]</div><div class="line">endIp = sys.argv[2]</div><div class="line">iplist = get_ip(sys.argv[1]+&quot; &quot;+sys.argv[2])</div><div class="line">for i in iplist:</div><div class="line">    Scanner(i)</div><div class="line">  </div><div class="line">def connMon(ip_addr):</div><div class="line">    print &apos; Connect mongodb: &apos; + ip_addr + &apos;:27017&apos;</div><div class="line">    try:</div><div class="line">        conn = pymongo.MongoClient(ip_addr,27017,socketTimeoutMS=3000)</div><div class="line">        dbname = conn.database_names()</div><div class="line">        print &quot;success&quot;</div><div class="line">    except Exception as e:</div><div class="line">        print &quot;error&quot;</div><div class="line">  </div><div class="line">print ipcons   </div><div class="line">for ipaddr in ipcons:</div><div class="line">    connMon(ipaddr)</div><div class="line">    print &quot;=================&quot;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="加固"><a href="#加固" class="headerlink" title="加固"></a>加固</h3><ol>
+<li><p>做好访问认证。打开你的MongoDB配置文件（.conf），设置为auth=true</p>
+</li>
+<li><p>做好防火墙设置。建议管理者关闭27017端口的访问。</p>
+</li>
+<li><p>Bind_ip，绑定内网IP访问。</p>
+</li>
+<li><p>做好升级。请管理者务必将软件升级到最新版本。</p>
+</li>
+</ol>
 
       
     </div>
@@ -321,12 +336,12 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2017/01/16/mongodb未授权访问/">大量mongodb被挟持分析</a></p>
+        <p><span>本文标题:</span><a href="/2017/01/16/mongodb未授权访问/">大量Mongodb被挟持原因分析</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">drops0hong</a></p>
         <p><span>发布时间:</span>2017-01-16, 00:00:00</p>
-        <p><span>最后更新:</span>2017-01-16, 17:39:43</p>
+        <p><span>最后更新:</span>2017-01-16, 20:22:08</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2017/01/16/mongodb未授权访问/" title="大量mongodb被挟持分析">http://wkh.dropsec.xyz/2017/01/16/mongodb未授权访问/</a>
+            <span>原始链接:</span><a class="post-url" href="/2017/01/16/mongodb未授权访问/" title="大量Mongodb被挟持原因分析">http://wkh.dropsec.xyz/2017/01/16/mongodb未授权访问/</a>
             <span class="copy-path" data-clipboard-text="原文: http://wkh.dropsec.xyz/2017/01/16/mongodb未授权访问/　　作者: drops0hong" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -343,7 +358,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0X00-缘由"><span class="toc-number">1.</span> <span class="toc-text">0X00 缘由</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0X01-漏洞原因"><span class="toc-number">2.</span> <span class="toc-text">0X01 漏洞原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-漏洞利用"><span class="toc-number">3.</span> <span class="toc-text">0x02 漏洞利用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#加固"><span class="toc-number">4.</span> <span class="toc-text">加固</span></a></li></ol>
         
     </div>
     <style>
@@ -379,7 +394,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"大量mongodb被挟持分析　| drops0hong's Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"大量Mongodb被挟持原因分析　| drops0hong's Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -395,7 +410,7 @@
     
       <div class="duoshuo" id="comments">
     <div id="comment-box" ></div>
-    <div class="ds-thread" id="ds-thread" data-thread-key="2017/01/16/mongodb未授权访问/" data-title="大量mongodb被挟持分析" data-url="http://wkh.dropsec.xyz/2017/01/16/mongodb未授权访问/"></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2017/01/16/mongodb未授权访问/" data-title="大量Mongodb被挟持原因分析" data-url="http://wkh.dropsec.xyz/2017/01/16/mongodb未授权访问/"></div>
     <script>
         var duoshuoQuery = {short_name:"null"};
         var loadComment = function(){
@@ -428,7 +443,7 @@
         
     </div>
 
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/mongodb未授权访问/">大量mongodb被挟持分析</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/mongodb未授权访问/">大量Mongodb被挟持原因分析</a></li></ul>
 
 
 
