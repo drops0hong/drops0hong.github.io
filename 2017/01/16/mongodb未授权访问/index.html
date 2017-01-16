@@ -23,7 +23,7 @@
 <meta property="og:description" content="截止本周三（1月11日），已经有20名以上的黑客加入到这场对MongoDB用户一边倒的碾压中来，遭到入侵、勒索的数据库超过了33，000个，并且这一数字还在不断上升中。（源自凯捷咨询的Niall Merrigan提供的数据）MongoDB是目前包括eBay，纽约时报，LinkedIn在内的全世界多家公司广泛采用的数据库。">
 <meta property="og:image" content="http://oacefhv01.bkt.clouddn.com/poc.png">
 <meta property="og:image" content="http://oacefhv01.bkt.clouddn.com/mongodb.png">
-<meta property="og:updated_time" content="2017-01-16T12:43:22.345Z">
+<meta property="og:updated_time" content="2017-01-16T12:46:56.306Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="大量Mongodb被挟持原因分析">
 <meta name="twitter:description" content="截止本周三（1月11日），已经有20名以上的黑客加入到这场对MongoDB用户一边倒的碾压中来，遭到入侵、勒索的数据库超过了33，000个，并且这一数字还在不断上升中。（源自凯捷咨询的Niall Merrigan提供的数据）MongoDB是目前包括eBay，纽约时报，LinkedIn在内的全世界多家公司广泛采用的数据库。">
@@ -322,12 +322,12 @@
 <h3 id="0x02-漏洞利用"><a href="#0x02-漏洞利用" class="headerlink" title="0x02 漏洞利用"></a>0x02 漏洞利用</h3><p><strong>漏洞扫描脚本：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line">import socket</div><div class="line">import sys</div><div class="line">import pymongo</div><div class="line">&apos;&apos;&apos;</div><div class="line">hint:python mongodb.py startIP endIp</div><div class="line">&apos;&apos;&apos; </div><div class="line">ipcons = []</div><div class="line">def Scanner(ip):</div><div class="line">    global ipcons</div><div class="line">    sk = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</div><div class="line">    sk.settimeout(0.3)</div><div class="line">    try:</div><div class="line">        sk.connect((ip,27017))</div><div class="line">        ipcons.append(ip)</div><div class="line">        sk.close()</div><div class="line">    except Exception:</div><div class="line">        pass</div><div class="line">  </div><div class="line">def ip2num(ip):</div><div class="line">    ip=[int(x) for x in ip.split(&apos;.&apos;)]</div><div class="line">    return ip[0] &lt;&lt;24 | ip[1]&lt;&lt;16 | ip[2]&lt;&lt;8 |ip[3]</div><div class="line">      </div><div class="line">def num2ip(num):</div><div class="line">    return &apos;%s.%s.%s.%s&apos; %( (num &amp; 0xff000000) &gt;&gt;24,</div><div class="line">                                (num &amp; 0x00ff0000) &gt;&gt;16,</div><div class="line">                                (num &amp; 0x0000ff00) &gt;&gt;8,</div><div class="line">                                num &amp; 0x000000ff )</div><div class="line">      </div><div class="line">def get_ip(ip):</div><div class="line">    start,end = [ip2num(x) for x in ip.split(&apos; &apos;) ]</div><div class="line">    return [ num2ip(num) for num in range(start,end+1) if num &amp; 0xff ]</div><div class="line">      </div><div class="line">startIp = sys.argv[1]</div><div class="line">endIp = sys.argv[2]</div><div class="line">iplist = get_ip(sys.argv[1]+&quot; &quot;+sys.argv[2])</div><div class="line">for i in iplist:</div><div class="line">    Scanner(i)</div><div class="line">  </div><div class="line">def connMon(ip_addr):</div><div class="line">    print &apos; Connect mongodb: &apos; + ip_addr + &apos;:27017&apos;</div><div class="line">    try:</div><div class="line">        conn = pymongo.MongoClient(ip_addr,27017,socketTimeoutMS=3000)</div><div class="line">        dbname = conn.database_names()</div><div class="line">        print &quot;success&quot;</div><div class="line">    except Exception as e:</div><div class="line">        print &quot;error&quot;</div><div class="line">  </div><div class="line">print ipcons   </div><div class="line">for ipaddr in ipcons:</div><div class="line">    connMon(ipaddr)</div><div class="line">    print &quot;=================&quot;</div></pre></td></tr></table></figure></p>
 </blockquote>
 <p><br><br><strong>随便扫了几个网段：</strong><br><img src="http://oacefhv01.bkt.clouddn.com/poc.png" alt="1"><br><img src="http://oacefhv01.bkt.clouddn.com/mongodb.png" alt="2"></p>
-<h3 id="0x03-加固"><a href="#0x03-加固" class="headerlink" title="0x03 加固"></a>0x03 加固</h3><ol>
+<h3 id="0x03-加固"><a href="#0x03-加固" class="headerlink" title="0x03 加固"></a>0x03 加固</h3><ul>
 <li>做好访问认证。打开你的MongoDB配置文件（.conf），设置为auth=true</li>
 <li>做好防火墙设置。建议管理者关闭27017端口的访问。</li>
 <li>Bind_ip，绑定内网IP访问。</li>
-<li>做好升级。请管理者务必将软件升级到最新版本。<h3 id="0x04-再说几句"><a href="#0x04-再说几句" class="headerlink" title="0x04 再说几句"></a>0x04 再说几句</h3>其实很多设备的默认配置是很危险的，redis未授权访问和本文的原理也是一样的，只不过redis危害更大，能够导致主机被控。所以在安装新设备新软件时一定要清楚该设备的安全配置。</li>
-</ol>
+<li>做好升级。请管理者务必将软件升级到最新版本。<br><br><h3 id="0x04-再说几句"><a href="#0x04-再说几句" class="headerlink" title="0x04 再说几句"></a>0x04 再说几句</h3>其实很多设备的默认配置是很危险的，redis未授权访问和本文的原理也是一样的，只不过redis危害更大，能够导致主机被控。所以在安装新设备新软件时一定要清楚该设备的安全配置。</li>
+</ul>
 
       
     </div>
@@ -339,7 +339,7 @@
         <p><span>本文标题:</span><a href="/2017/01/16/mongodb未授权访问/">大量Mongodb被挟持原因分析</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">drops0hong</a></p>
         <p><span>发布时间:</span>2017-01-16, 00:00:00</p>
-        <p><span>最后更新:</span>2017-01-16, 20:43:22</p>
+        <p><span>最后更新:</span>2017-01-16, 20:46:56</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/01/16/mongodb未授权访问/" title="大量Mongodb被挟持原因分析">http://wkh.dropsec.xyz/2017/01/16/mongodb未授权访问/</a>
             <span class="copy-path" data-clipboard-text="原文: http://wkh.dropsec.xyz/2017/01/16/mongodb未授权访问/　　作者: drops0hong" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
