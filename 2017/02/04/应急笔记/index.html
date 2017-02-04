@@ -15,13 +15,21 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="tags">
-<meta property="og:url" content="http://wkh.dropsec.xyz/tags/index.html">
+<meta name="description" content="记录应急常用的攻具和技巧，工具包含进程查看查杀工具和webshell查杀工具。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="应急笔记">
+<meta property="og:url" content="http://wkh.dropsec.xyz/2017/02/04/应急笔记/index.html">
 <meta property="og:site_name" content="drops0hong's Blog">
-<meta property="og:updated_time" content="2017-01-16T07:49:14.441Z">
+<meta property="og:description" content="记录应急常用的攻具和技巧，工具包含进程查看查杀工具和webshell查杀工具。">
+<meta property="og:image" content="http://oacefhv01.bkt.clouddn.com/pc.png">
+<meta property="og:image" content="http://oacefhv01.bkt.clouddn.com/pc_1.png">
+<meta property="og:image" content="http://oacefhv01.bkt.clouddn.com/pc_2.png">
+<meta property="og:image" content="https://pic1.zhimg.com/b54837775fb58c5edfb2f0338065acd8_b.png">
+<meta property="og:updated_time" content="2017-02-04T04:48:42.993Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tags">
+<meta name="twitter:title" content="应急笔记">
+<meta name="twitter:description" content="记录应急常用的攻具和技巧，工具包含进程查看查杀工具和webshell查杀工具。">
+<meta name="twitter:image" content="http://oacefhv01.bkt.clouddn.com/pc.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -53,7 +61,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>tags | drops0hong&#39;s Blog</title>
+<title>应急笔记 | drops0hong&#39;s Blog</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -63,7 +71,7 @@
         fancybox: true,
         animate: true,
         isHome: false,
-        isPost: false,
+        isPost: true,
         isArchive: false,
         isTag: false,
         isCategory: false,
@@ -265,11 +273,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="page-undefined" class="article article-type-page" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-应急笔记" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/tags/index.html" class="article-date">
-      <time datetime="2017-01-16T07:49:14.000Z" itemprop="datePublished">2017-01-16</time>
+      <a href="/2017/02/04/应急笔记/" class="article-date">
+      <time datetime="2017-02-03T16:00:00.000Z" itemprop="datePublished">2017-02-04</time>
 </a>
 
 
@@ -284,7 +292,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      tags
+      应急笔记
     </h1>
   
 
@@ -292,8 +300,16 @@
       
       <div class="article-info article-info-post">
         
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/安全应急/">安全应急</a>
+    </div>
+
 
         
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webshell查杀/">webshell查杀</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/应急响应/">应急响应</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/病毒木马查杀/">病毒木马查杀</a></li></ul>
+    </div>
+
         <div class="clearfix"></div>
       </div>
       
@@ -301,96 +317,86 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <style>
-    .article-meta { display: none; }
-    #container .article .article-title { padding-right: 0; }
-    .article-header {
-        padding: 0;
-        padding-top: 26px;
-        border-left: none;
-        text-align: center;
-    }
-    .article-header:hover { border-left: none; }
-    .article-title { font-size: 1.6em }
-    .article-entry hr { margin: 0;}
-    .article-meta,
-    #container .article-info-post.article-info { display: none;}
-    #container .article .article-title { padding: 0; }
-</style>
+        <blockquote>
+<p>记录应急常用的攻具和技巧，工具包含进程查看查杀工具和webshell查杀工具。<br><a id="more"></a></p>
+<h3 id="0x00-操作系统级"><a href="#0x00-操作系统级" class="headerlink" title="0x00 操作系统级"></a>0x00 操作系统级</h3><p>推荐两款操作系统查看危险进程的工具：<strong>PChunter、Powertool</strong></p>
+<h4 id="PChunter"><a href="#PChunter" class="headerlink" title="PChunter"></a>PChunter</h4><p><strong>界面图：</strong><br><img src="http://oacefhv01.bkt.clouddn.com/pc.png" alt="1"></p>
+<h5 id="入门使用"><a href="#入门使用" class="headerlink" title="入门使用"></a>入门使用</h5><ul>
+<li>1、对着进程单击鼠标右键，菜单中选择“校验所有数字签名”，PC Hunter会以不同的颜色显示不同种类的进程。<img src="http://oacefhv01.bkt.clouddn.com/pc_1.png" alt="2"></li>
+</ul>
+</blockquote>
+<p><pre><code>#进程颜色备注<br>1、数字签名是微软的进程：黑色<br>2、数字签名非微软的进程：蓝色<br>3、微软的进程,如果有些模块是非微软的：土黄色<br>4、没有签名的模块：粉红色<br>5、可疑进程，隐藏服务、被挂钩函数：红色<br></code></pre></p>
+<ul>
+<li>2、检查所有非黑色进程<pre><code>
+1、校验数字签名：查看进程数字签名是否通过微软认证
+2、定位到进程文件：查看文件路径是否可疑，如是否在临时文件夹，一定要注意是否存在于文档及ProgramData等位置
+3、查看进程文件属性：用于查看进程文件的详细信息、数字签名等属性
+</code></pre></li>
+<li>3、进程安全识别，对于无法确定的进程可通过复制进程名用搜索引擎查找相关信息或者请教有经验的大牛。</li>
+<li>4、一旦确认该进程为病毒进程，在右键菜单中，选择“强制结束进程并删除文件”解决掉病毒进程，再去着手清理注册表以及删除病毒文件等进一步的工作了。<h5 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h5>这只是pchunter的入门使用，还有其他更高深的使用方法，可自行研究，如有发现更好的使用技巧欢迎与本人分享！<h4 id="powertool"><a href="#powertool" class="headerlink" title="powertool"></a>powertool</h4>非常强大的一款与软件！推荐使用！<br><strong>界面图：</strong><br><img src="http://oacefhv01.bkt.clouddn.com/pc_2.png" alt="3"><br><strong>说明：</strong>可以显示可疑驱动，显示进程的类型包括生产厂商。<br><br><strong>脑图</strong><br><br><img src="https://pic1.zhimg.com/b54837775fb58c5edfb2f0338065acd8_b.png" alt="4"><br><br><strong>详细功能如下：</strong><br><ul><li>所有进程的枚举(包括内核中隐藏的进程)<br></li><li>所有文件的枚举(包括内核中隐藏的文件)<br></li><li>进程中所有模块的枚举(包括内核中隐藏的模块)<br></li><li>进程的强制结束<br></li><li>进程中模块的强制卸载<br></li><li>模块被哪些进程加载的检索<br></li><li>查看文件/文件夹被占用的情况<br></li><li>可以 Unlock 占用文件的进程<br></li><li>文件/文件夹的粉碎(可强删 Unlocker1.8.9/金山/超级巡警文件粉碎机无法删除的顽固文件)<br></li><li>阻止文件粉碎后用还原软件还原(采用美国国防部DOD 5220.22-m标准阻止文件还原)<br></li><li>用磁盘解析技术检索硬盘数据<br></li><li>内核模块和驱动的查看和管理<br></li><li>启动项的查看和管理<br></li><li>系统服务的查看和管理<br></li><li>集成文件粉碎功能到系统右键菜单<br></li><li>消息钩子的查看和卸载<br></li><li>SSDT/Shadow SSDT 钩子的查看和卸载<br></li><li>各种内核回调的查看和卸载<br></li><li>多国语言版本的对应(中文和英文)<br></li><li>暂停进程运行和恢复进程运行<br></li><li>进程模块的内存的dump<br></li><li>进程的线程的查看和结束<br></li><li>进程的窗口的查看和控制<br></li><li>进程的定时器的查看和摘除(该功能还没对应Windows2003)<br></li><li>内核定时器的查看和摘除<br></li><li>上传文件在线扫描病毒<br></li><li>查看和摘除用户层的钩子<br></li><li>查看和结束内核线程<br></li><li>关机回调的清除<br></li><li>查看和摘除mini文件驱动<br></li><li>系统恢复功能(检测项目包括注册表关键部位，已安装的杀毒软件、AutoRun文件、Windows漏洞检测、共享文件夹)<br></li><li>流氓快捷方式的检测和删除<br></li><li>镜像劫持的检测和删除<br></li><li>文件关联的检测和删除<br></li><li>IE相关的检测和删除<br></li><li>FSD Hook的检测和删除<br></li><li>Object Hook的检测和删除<br></li><li>部分CPU/硬盘/显卡/主板的温度检测<br></li><li>部分硬件信息的确认<br></li><li>修复漏洞功能，可以下载和安装Windows补丁<br></li><li>IDT钩子的检测和恢复<br></li><li>禁止进城创建，新建文件，注册表修改等配置<br></li><li>注册表功能，几乎可以无视一切隐藏注册表的钩子<br></li><li>SPI的检测<br></li><li>通过磁盘解析进行文件浏览<br></li><li>文件强制拷贝功能，可拷贝网络视频的缓存文件<br></li><li>通过磁盘解析取得和拷贝ADS流文件<br></li><li>添加和查看文件重启删除信息<br></li><li>Disk/Atapi驱动钩子的检测和恢复<br></li><li>进程权限的枚举和摘除<br></li><li>检测键盘侦听软件<br></li><li>检测被监视的文件<br></li><li>IO定时器的检测和停止<br></li><li>工作列线程的检测和暂停<br></li><li>FAT32格式的磁盘解析<br></li><li>新增MBR的检测和修复(可对抗鬼影等Bootkit和MBR Rootkit)<br></li><li>新增检测被替换的或被感染的内核文件(内核文件劫持)<br></li><li>支持多硬盘的MBR检测和恢复<br></li><li>新增可疑设备的检测和清除<br></li><li>支持离线的启动项和服务的检测和删除<br></li><li>新增注册表和服务的强删功能<br></li></ul>这些功能相当于把操作系统的内核部分刨开了给用户看。凭借着这一点，所有的系统病毒都在Powertool下面无处遁形。<br></li>
+</ul>
+<h3 id="0x01-WEB层"><a href="#0x01-WEB层" class="headerlink" title="0x01 WEB层"></a>0x01 WEB层</h3><p>web方面的应急主要是查杀webshell，用D盾或者把源码备份下来用360安全卫士扫扫就好了，基本上大部分的webshell都能查出来。</p>
+<p><br><br>–学习过程中会不断补充笔记！</p>
 
-
-    <!-- Tag Cloud Page -->
-    <hr>
-<br>
-<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/WEB安全/">WEB安全</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/安全应急/">安全应急</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/网络安全/">网络安全</a><span class="category-list-count">1</span></li></ul>
-
-<p class="count"></p>
-
-<div class="tags">
-    <a href="/tags/webshell查杀/" style="font-size: 16px; color: #808080">webshell查杀</a> <a href="/tags/万能Cookie/" style="font-size: 16px; color: #808080">万能Cookie</a> <a href="/tags/安全配置/" style="font-size: 16px; color: #808080">安全配置</a> <a href="/tags/应急响应/" style="font-size: 16px; color: #808080">应急响应</a> <a href="/tags/未授权访问/" style="font-size: 16px; color: #808080">未授权访问</a> <a href="/tags/病毒木马查杀/" style="font-size: 16px; color: #808080">病毒木马查杀</a> <a href="/tags/错误的权限验证/" style="font-size: 16px; color: #808080">错误的权限验证</a>
-</div>
-<style>
-    .category-list li{
-        display: inline-block;
-        margin: 0 1em .5em 0;
-        padding: 4px;
-        border: 1px solid lightgray;
-        font-size: 1.2rem;
-    }
-    .category-list a { color: gray; }
-    .category-list-item:hover a {
-        color: gray;
-        text-decoration: none;
-    }
-    .category-list-count {
-        margin-left: 2px;
-        font-size: .9rem;
-    }
-    .article-entry ul li:before{ display: none; }
-    .article-inner { text-align: center; }
-    .tags {
-        max-width: 42em;
-        margin: 2em auto;
-        margin-top: 0em;
-    }
-    .tags a {
-        margin-right: 1em;
-        line-height: 65px;
-        border-bottom: 1px solid gray;
-        white-space: nowrap;
-        transition: border-bottom .5s;
-    }
-    .tags a:hover {
-        border-bottom: 3px dotted gray;
-        text-decoration: none;
-    }
-    #count > span {
-        margin: auto .2em;
-        font-weight: bold;
-    }
-</style>
-
-<!-- Count tags and categories -->
-<p id="count">
-        已有<span><script>document.write($(".category-list-item").length)</script></span>个分类，
-        共计<span><script>document.write($(".tags > a").length)</script></span>个标签
-</p>
-<script>
-    $('#count').appendTo('.count');
-</script>
-
-          
-        
       
     </div>
     
   </div>
   
     
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/02/04/应急笔记/">应急笔记</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">drops0hong</a></p>
+        <p><span>发布时间:</span>2017-02-04, 00:00:00</p>
+        <p><span>最后更新:</span>2017-02-04, 12:48:42</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/02/04/应急笔记/" title="应急笔记">http://wkh.dropsec.xyz/2017/02/04/应急笔记/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://wkh.dropsec.xyz/2017/02/04/应急笔记/　　作者: drops0hong" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
 
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/01/16/一次不想说的比赛/">
+                    一次不想说的比赛
+                </a>
+            </div>
+        
+    </nav>
 
   
 </article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x00-操作系统级"><span class="toc-number">1.</span> <span class="toc-text">0x00 操作系统级</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#PChunter"><span class="toc-number">1.1.</span> <span class="toc-text">PChunter</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#入门使用"><span class="toc-number">1.1.1.</span> <span class="toc-text">入门使用</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#说明"><span class="toc-number">1.1.2.</span> <span class="toc-text">说明</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#powertool"><span class="toc-number">1.2.</span> <span class="toc-text">powertool</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-WEB层"><span class="toc-number">2.</span> <span class="toc-text">0x01 WEB层</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
 
 
 
@@ -408,7 +414,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"tags　| drops0hong's Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"应急笔记　| drops0hong's Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -424,7 +430,7 @@
     
       <div class="duoshuo" id="comments">
     <div id="comment-box" ></div>
-    <div class="ds-thread" id="ds-thread" data-thread-key="tags/index.html" data-title="tags" data-url="http://wkh.dropsec.xyz/tags/index.html"></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2017/02/04/应急笔记/" data-title="应急笔记" data-url="http://wkh.dropsec.xyz/2017/02/04/应急笔记/"></div>
     <script>
         var duoshuoQuery = {short_name:"null"};
         var loadComment = function(){
@@ -442,6 +448,24 @@
 </div>
     
 
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/01/16/一次不想说的比赛/" title="下一篇: 一次不想说的比赛">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/02/04/应急笔记/">应急笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/一次不想说的比赛/">一次不想说的比赛</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/mongodb未授权访问/">大量Mongodb被挟持原因分析</a></li></ul>
 
 
 
