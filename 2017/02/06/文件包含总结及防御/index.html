@@ -21,7 +21,7 @@
 <meta property="og:url" content="http://wkh.dropsec.xyz/2017/02/06/文件包含总结及防御/index.html">
 <meta property="og:site_name" content="drops0hong's Blog">
 <meta property="og:description" content="内容文件包含漏洞：PHP文件包含分类：1、本地文件包含；2、远程文件包含PHP包含漏洞上传技巧PHP文件包含读写文件PHP包含日志文件PHP包含截断">
-<meta property="og:updated_time" content="2017-02-06T07:46:39.163Z">
+<meta property="og:updated_time" content="2017-02-06T08:04:58.897Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="文件包含总结及防御">
 <meta name="twitter:description" content="内容文件包含漏洞：PHP文件包含分类：1、本地文件包含；2、远程文件包含PHP包含漏洞上传技巧PHP文件包含读写文件PHP包含日志文件PHP包含截断">
@@ -313,8 +313,89 @@
       
           
         <blockquote>
-<p>内容<br>文件包含漏洞：<br>PHP文件包含分类：1、本地文件包含；2、远程文件包含<br><br>PHP包含漏洞上传技巧<br><br>PHP文件包含读写文件<br><br>PHP包含日志文件<br><br>PHP包含截断<br><a id="more"></a><br>内容<br>文件包含漏洞：<br>PHP文件包含分类：1、本地文件包含；2、远程文件包含<br><br>PHP包含漏洞上传技巧<br><br>PHP文件包含读写文件<br><br>PHP包含日志文件<br><br>PHP包含截断<br><!--more--></p>
+<p>内容<br>文件包含漏洞：<br>PHP文件包含分类：1、本地文件包含；2、远程文件包含<br><br>PHP包含漏洞上传技巧<br><br>PHP文件包含读写文件<br><br>PHP包含日志文件<br><br>PHP包含截断<br><a id="more"></a></p>
+<h3 id="0x01-PHP文件包含简介及分类"><a href="#0x01-PHP文件包含简介及分类" class="headerlink" title="0x01 PHP文件包含简介及分类"></a>0x01 PHP文件包含简介及分类</h3><p>php文件包含会把任何后缀的文件当做php文件来执行，php对于包含文件提供的功能太强大，太灵活，所以包含漏洞经常出现在php中，但并不意味其他语言没有文件包含漏洞。<br></p>
 </blockquote>
+<p><strong>php文件包含的函数：</strong><code>include();include_once();require();require_once()</code>。</p>
+<p><code>include()</code>与<code>require()</code>的<strong>区别</strong>：<code>require()</code>遇到错误将不再往下执行，<code>include()</code>反之。后面加<code>_once()</code>是为了防止重复包含。<br><br><strong>分类:</strong>1、本地文件包含LIF；2、远程文件包含RIF(需在php.ini中开启<code>allow_url_include</code>)</p>
+<h3 id="0x02-PHP文件包含利用"><a href="#0x02-PHP文件包含利用" class="headerlink" title="0x02 PHP文件包含利用"></a>0x02 PHP文件包含利用</h3><p><strong>一、与文件上传结合使用：</strong>通过文件上传功能上传任意后缀的文件通过../切换目录进行包含即可；</p>
+<pre><code>在php中一些目录切换
+../表示上一层目录
+./表示当前目录
+/单独使用不能表示当前目录，只用xx/这样才能表示xx这个目录</code></pre>
+
+<p><strong>二、文件包含两种典型的格式：</strong></p>
+<p><strong>1、需要截断的文件包含</strong></p>
+<p>代码原型：<code>include($_GET[&#39;xx&#39;].&#39;.php&#39;)；</code>或者 <code>include(“$_GET[&#39;xx&#39;]/test.php”);</code>想要突破限制就需要截断，通常截断有三种方法。</p>
+<p>（1）使用%00来截断<br>适合场合：<code>Magic_quote</code>为off的情况下</p>
+<p>（2）使用？截断<br>适合场合：远程文件包含（RFI），相当于又构造了一次Get请求。<code>http://127.0.0.1:81/include.php?xx=http://127.0.0.1:81/shell.txt?</code></p>
+<p>（3）通过使路径长度达到一定长度限制时截断<br>通常Windows的截断长度为259，Linux的截断长度为4096<br>使用场合：均适用<br>由于Windows和Linux的文件名都有一个最大路径长度(MAX_PATH)的限制，因此当提交文件名的长度超过了最大路劲长度限制是就会截断后面的内容，从而达到文件包含的效果<br><code>include.php?xx=http://127.0.0.1:81/shell.txt//////////////////////////////////////////////////////////////////////</code><br>还可以用字符.或者/.，或者./（注意顺序）来截断</p>
+<p><strong>2．直接包含的类型</strong></p>
+<p><code>include(“$_GET[&#39;xx&#39;]“);</code></p>
+<p>可以直接在dir中指定文件名就能实现文件包含，而不需要经过截断处理。<br>在register_globals为on的情况下，如果变量未初始化则可以达到文件包含的效果，通常网上发的文件包含 漏洞都没有上面两种那么直接，大部分需要register_globals的配合才能实现文件包含。<br><br>详见：<a href="http://www.2cto.com/Article/201304/204158.html" target="_blank" rel="external">http://www.2cto.com/Article/201304/204158.html</a><br><br><a href="http://www.2cto.com/Article/201304/201062.html" target="_blank" rel="external">http://www.2cto.com/Article/201304/201062.html</a><br><br><a href="http://www.bubuko.com/infodetail-1460368.html" target="_blank" rel="external">过滤器</a></p>
+<p><strong>三、php://filter过滤器的利用</strong></p>
+<p><strong>1、php文件包含读文件</strong></p>
+<p>可以用此方式把源代码以base64编码的方式读出来，然后对源代码进行代码审计<br><code>127.0.0.1/index?a=php://filter/read=convert.base64-encode/resource=./xxe.php</code></p>
+<p><strong>2、php文件包含写文件</strong></p>
+<p><code>127.0.0.1/index?a=php://input</code>,然后以post的方式提交要写入的内容，如<code>&lt;?php phpinfo();?&gt;</code><br><strong>利用的前提条件：</strong>和远程文件包含一样必须开启<code>allow_url_include</code>才行，且一些能够执行系统命令的函数启用了才行如<code>proc-open、open、oppen、exec、system</code><br>所以相对于php文件包含写文件的防护就很明显了，将利用条件关闭或者禁用即可！</p>
+<p>更多的思路请参考：<a href="https://www.leavesongs.com/PENETRATION/php-filter-magic.html" target="_blank" rel="external">php://filter的妙用</a></p>
+<p><strong>四、包含日志文件的利用</strong></p>
+<p>当我们碰到无法上传文件，无法写文件这样的一个本地文件包含漏洞时候，我们能有两种方法继续往下渗透1、挖掘新的漏洞，这明显很难，我们还有第二种方法，那就是包含日志文件（在运行切换目录的情况下）</p>
+<p>Apache会生成两个日志文件，一个是access.log（用来记录访问日志）和error.log(用来记录错误日志)，只要在地址栏访问时加入恶意的代码就会记录到日志文件，最后包含日志文件即可利用。</p>
+<h3 id="0x03-php文件包含的防御"><a href="#0x03-php文件包含的防御" class="headerlink" title="0x03 php文件包含的防御"></a>0x03 php文件包含的防御</h3><h4 id="1、服务器配置层的防御"><a href="#1、服务器配置层的防御" class="headerlink" title="1、服务器配置层的防御"></a>1、服务器配置层的防御</h4><p>设定php.ini中open_basedir的值将允许包含的文件限定在某一特定目录内，这样可以有效的避免利用文件包含漏洞进行的攻击。需要注意的是，open_basedir的值是目录的前缀，因此假设设置如下值：<code>open_basedir=/var/www/test</code>，那么实际上以下目录都是在允许范围内的：</p>
+<pre><code>/var/www/test
+/var/www/test123
+/var/www/testabc</code></pre>
+
+<p>如果要限定一个指定的目录，需要在最后加上”/“，这一点需要特别注意。</p>
+<p><strong>正确写法:</strong><code>open_basedir=/var/www/test/</code></p>
+<p>如果有多个目录，在Windows下目录间用分号隔开，在Linux下面则用冒号隔开。</p>
+<p>尽可能的关闭一些不用的函数或者模块，防止文件包含时利用到。</p>
+<h4 id="2、代码层的防御"><a href="#2、代码层的防御" class="headerlink" title="2、代码层的防御"></a>2、代码层的防御</h4><p>从代码层来讲，在开发过程中应该尽量避免动态的变量，尤其是用户可以控制的变量。一种保险的做法是采用“白名单”的方式将允许包含的文件列出来，只允许包含白名单中的文件，这样就可以避免任意文件包含的风险。</p>
+<pre><code>
+`$filename = $_GET['filename'];`
+`switch($filename){`
+    `case 'one';`
+    `case 'two';`
+    `case 'three';`
+        `include '/var/www/html'.$file.'php';`
+        `break;`
+    `default:`
+        `include '/var/www/html/main.php';`
+    `}`</code></pre>
+还有一种做法是将文件包含漏洞利用过程中的一些特殊字符定义在黑名单中，对传入的参数进行过滤，但这样有时会因为过滤不全，导致被有经验的攻击者绕过。
+
+从这两个方面来防御文件包含，几乎可以防御住文件包含了。
+
+### 0x04 php的一些内置协议
+php的内置协议在文件包含漏洞中能起着非常重要的作用，从前面的php://filter读文件就可以看出它是多么强大，把代码读出来相当于白盒测试了。
+php的内置协议大概有以下几种：
+<pre><code>file:///var/www/html  访问本地文件系统
+ftp://<login>:<password>@<ftpserveraddress>   访问FTP(s) URLs
+data://  数据流
+http:// — 访问 HTTP(s) URLs
+ftp:// — 访问 FTP(s) URLs
+php:// — 访问各个输入/输出流
+zlib:// — 压缩流
+data:// — Data (RFC 2397)
+glob:// — 查找匹配的文件路径模式
+phar:// — PHP Archive
+ssh2:// — Secure Shell 2
+rar:// — RAR
+ogg:// — Audio streams
+expect:// — 处理交互式的流
+</ftpserveraddress></password></login></code></pre>
+
+<p>内置协议利用的相关链接：<br><a href="http://www.bubuko.com/infodetail-1460368.html" target="_blank" rel="external">相关利用一</a>、<a href="https://www.leavesongs.com/PENETRATION/php-filter-magic.html" target="_blank" rel="external">php://filter的妙用</a>、<a href="http://www.cnblogs.com/littlehann/p/3665062.html" target="_blank" rel="external">PHP封装协议安全问题学习</a></p>
+<h3 id="0x05-补充"><a href="#0x05-补充" class="headerlink" title="0x05 补充"></a>0x05 补充</h3><h4 id="php文件包含姿势"><a href="#php文件包含姿势" class="headerlink" title="php文件包含姿势"></a>php文件包含姿势</h4><p><pre><code></code></pre></p>
+<ul>
+<li>如果网站存在文件上传功能，比如前台传头像之类，可以尝试包含上传的文件，当然文件可控。</li>
+<li>利用php封装协议php://input和data://，包含post数据造成php命令执行，当然allowurlinclude选项需要打开</li>
+<li>因为包含的可以是任意文件，log文件也是可以，当我们提交恶意代码时也会被记录，于是包含记录了恶意代码的log文件是个好主意</li>
+<li>包含/proc/self/environ文件： 这需要PHP运行作为一个具有cgion /proc伪文件的系统且PHP脚本有权访问这些伪文件</li>
+<li>包含会话文件-这需要攻击者能控制会话中的任何字符串值（注入代码，例如<code>phpinfo（）</code>），会话文件必须存放在serializedsession文件且PHP脚本能够访问会话文件（通常是/tmp/ sessSESSIONID文件</li>
+<li>包含其他由php应用创建的文件，只要你能想到的，都可以尝试创建 然后包含他，比如数据库文件，缓存文件，应用程序级别的日志<br><br><strong>注意：</strong>在包含日志文件时一直不成功，主要是由于直接在浏览器请求的URL会URL编码后才记录到日志文件中，可通过burp来访问网站，即可绕过浏览器URL编码。文件包含和文件上传更配哦</li>
+</ul>
 
       
     </div>
@@ -326,7 +407,7 @@
         <p><span>本文标题:</span><a href="/2017/02/06/文件包含总结及防御/">文件包含总结及防御</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">drops0hong</a></p>
         <p><span>发布时间:</span>2017-02-06, 00:00:00</p>
-        <p><span>最后更新:</span>2017-02-06, 15:46:39</p>
+        <p><span>最后更新:</span>2017-02-06, 16:04:58</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/02/06/文件包含总结及防御/" title="文件包含总结及防御">http://wkh.dropsec.xyz/2017/02/06/文件包含总结及防御/</a>
             <span class="copy-path" data-clipboard-text="原文: http://wkh.dropsec.xyz/2017/02/06/文件包含总结及防御/　　作者: drops0hong" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -356,7 +437,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-PHP文件包含简介及分类"><span class="toc-number">1.</span> <span class="toc-text">0x01 PHP文件包含简介及分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-PHP文件包含利用"><span class="toc-number">2.</span> <span class="toc-text">0x02 PHP文件包含利用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x03-php文件包含的防御"><span class="toc-number">3.</span> <span class="toc-text">0x03 php文件包含的防御</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、服务器配置层的防御"><span class="toc-number">3.1.</span> <span class="toc-text">1、服务器配置层的防御</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、代码层的防御"><span class="toc-number">3.2.</span> <span class="toc-text">2、代码层的防御</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x05-补充"><span class="toc-number">4.</span> <span class="toc-text">0x05 补充</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#php文件包含姿势"><span class="toc-number">4.1.</span> <span class="toc-text">php文件包含姿势</span></a></li></ol></li></ol>
         
     </div>
     <style>
@@ -443,7 +524,7 @@
         
     </div>
 
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/02/06/文件包含总结及防御/">文件包含总结及防御</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/04/应急笔记/">应急笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/mongodb未授权访问/">大量Mongodb被挟持原因分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/一次不想说的比赛/">一次不想说的比赛</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/02/06/文件包含总结及防御/">文件包含总结及防御</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/04/应急笔记/">应急笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/一次不想说的比赛/">一次不想说的比赛</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/mongodb未授权访问/">大量Mongodb被挟持原因分析</a></li></ul>
 
 
 
