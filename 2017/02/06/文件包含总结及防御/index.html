@@ -21,7 +21,7 @@
 <meta property="og:url" content="http://wkh.dropsec.xyz/2017/02/06/文件包含总结及防御/index.html">
 <meta property="og:site_name" content="drops0hong's Blog">
 <meta property="og:description" content="内容文件包含漏洞：PHP文件包含分类：1、本地文件包含；2、远程文件包含PHP包含漏洞上传技巧PHP文件包含读写文件PHP包含日志文件PHP包含截断">
-<meta property="og:updated_time" content="2017-02-06T08:04:58.897Z">
+<meta property="og:updated_time" content="2017-02-14T05:35:41.927Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="文件包含总结及防御">
 <meta name="twitter:description" content="内容文件包含漏洞：PHP文件包含分类：1、本地文件包含；2、远程文件包含PHP包含漏洞上传技巧PHP文件包含读写文件PHP包含日志文件PHP包含截断">
@@ -317,7 +317,7 @@
 <h3 id="0x01-PHP文件包含简介及分类"><a href="#0x01-PHP文件包含简介及分类" class="headerlink" title="0x01 PHP文件包含简介及分类"></a>0x01 PHP文件包含简介及分类</h3><p>php文件包含会把任何后缀的文件当做php文件来执行，php对于包含文件提供的功能太强大，太灵活，所以包含漏洞经常出现在php中，但并不意味其他语言没有文件包含漏洞。<br></p>
 </blockquote>
 <p><strong>php文件包含的函数：</strong><code>include();include_once();require();require_once()</code>。</p>
-<p><code>include()</code>与<code>require()</code>的<strong>区别</strong>：<code>require()</code>遇到错误将不再往下执行，<code>include()</code>反之。后面加<code>_once()</code>是为了防止重复包含。<br><br><strong>分类:</strong>1、本地文件包含LIF；2、远程文件包含RIF(需在php.ini中开启<code>allow_url_include</code>)</p>
+<p><code>include()</code>与<code>require()</code>的<strong>区别</strong>：<code>require()</code>遇到错误将不再往下执行，<code>include()</code>反之。后面加<code>_once()</code>是为了防止重复包含。<br><br><strong>分类:</strong>1、本地文件包含LFI；2、远程文件包含RFI(需在php.ini中开启<code>allow_url_include</code>)</p>
 <h3 id="0x02-PHP文件包含利用"><a href="#0x02-PHP文件包含利用" class="headerlink" title="0x02 PHP文件包含利用"></a>0x02 PHP文件包含利用</h3><p><strong>一、与文件上传结合使用：</strong>通过文件上传功能上传任意后缀的文件通过../切换目录进行包含即可；</p>
 <pre><code>在php中一些目录切换
 ../表示上一层目录
@@ -407,7 +407,7 @@ expect:// — 处理交互式的流
         <p><span>本文标题:</span><a href="/2017/02/06/文件包含总结及防御/">文件包含总结及防御</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">drops0hong</a></p>
         <p><span>发布时间:</span>2017-02-06, 00:00:00</p>
-        <p><span>最后更新:</span>2017-02-06, 16:04:58</p>
+        <p><span>最后更新:</span>2017-02-14, 13:35:41</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/02/06/文件包含总结及防御/" title="文件包含总结及防御">http://wkh.dropsec.xyz/2017/02/06/文件包含总结及防御/</a>
             <span class="copy-path" data-clipboard-text="原文: http://wkh.dropsec.xyz/2017/02/06/文件包含总结及防御/　　作者: drops0hong" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -424,7 +424,7 @@ expect:// — 处理交互式的流
         
             <div id="article-nav-newer" class="article-nav-title">
                 <a href="/2017/02/14/java学习笔记/">
-                    应急笔记
+                    java学习笔记
                 </a>
             </div>
         
@@ -518,7 +518,7 @@ expect:// — 处理交互式的流
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2017/02/14/java学习笔记/" title="上一篇: 应急笔记">
+            <a href="/2017/02/14/java学习笔记/" title="上一篇: java学习笔记">
                 <i class="fa fa-angle-left"></i>
             </a>
         
@@ -532,7 +532,7 @@ expect:// — 处理交互式的流
         
     </div>
 
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/02/14/java学习笔记/">应急笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/06/文件包含总结及防御/">文件包含总结及防御</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/04/应急笔记/">应急笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/mongodb未授权访问/">大量Mongodb被挟持原因分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/一次不想说的比赛/">一次不想说的比赛</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/02/14/java学习笔记/">java学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/06/文件包含总结及防御/">文件包含总结及防御</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/04/应急笔记/">应急笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/一次不想说的比赛/">一次不想说的比赛</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/mongodb未授权访问/">大量Mongodb被挟持原因分析</a></li></ul>
 
 
 
