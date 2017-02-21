@@ -15,16 +15,23 @@
 
 
 
-<meta name="description" content="文件上传漏洞可以说是渗透测试很常见很常见的一个漏洞，因为用它获得服务器权限最快最直接。但是想真正把这个漏洞利用好却不那么容易，其中有很多技巧，也有很多需要掌握的知识。">
+<meta name="description" content="内容from：freebuf">
 <meta property="og:type" content="article">
-<meta property="og:title" content="文件上传">
-<meta property="og:url" content="http://wkh.dropsec.xyz/2017/02/14/文件上传/index.html">
+<meta property="og:title" content="浅析XXE攻击">
+<meta property="og:url" content="http://wkh.dropsec.xyz/2017/02/21/浅析XXE攻击/index.html">
 <meta property="og:site_name" content="drops0hong's Blog">
-<meta property="og:description" content="文件上传漏洞可以说是渗透测试很常见很常见的一个漏洞，因为用它获得服务器权限最快最直接。但是想真正把这个漏洞利用好却不那么容易，其中有很多技巧，也有很多需要掌握的知识。">
-<meta property="og:updated_time" content="2017-02-14T09:36:59.956Z">
+<meta property="og:description" content="内容from：freebuf">
+<meta property="og:image" content="http://image.3001.net/2017/02/21cd690cb4746d7146c5ef9f951d5746.jpg">
+<meta property="og:image" content="http://image.3001.net/2017/02/b420129eeae40a064355b2e8329d7393.jpg">
+<meta property="og:image" content="http://image.3001.net/2017/02/f8743d6009c3adc3b15c06970df03b80.jpg">
+<meta property="og:image" content="http://image.3001.net/2017/02/95a566a1d0820afbe83eb2a0b627c8a1.jpg">
+<meta property="og:image" content="http://image.3001.net/2017/02/e93606466b7f036abf45619ee44c80b6.jpg">
+<meta property="og:image" content="http://image.3001.net/2017/02/5a9d492d665886b1842a99f5aad5fd10.jpg">
+<meta property="og:updated_time" content="2017-02-21T02:37:56.860Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="文件上传">
-<meta name="twitter:description" content="文件上传漏洞可以说是渗透测试很常见很常见的一个漏洞，因为用它获得服务器权限最快最直接。但是想真正把这个漏洞利用好却不那么容易，其中有很多技巧，也有很多需要掌握的知识。">
+<meta name="twitter:title" content="浅析XXE攻击">
+<meta name="twitter:description" content="内容from：freebuf">
+<meta name="twitter:image" content="http://image.3001.net/2017/02/21cd690cb4746d7146c5ef9f951d5746.jpg">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -56,7 +63,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>文件上传 | drops0hong&#39;s Blog</title>
+<title>浅析XXE攻击 | drops0hong&#39;s Blog</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -268,11 +275,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="post-文件上传" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-浅析XXE攻击" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/02/14/文件上传/" class="article-date">
-      <time datetime="2017-02-13T16:00:00.000Z" itemprop="datePublished">2017-02-14</time>
+      <a href="/2017/02/21/浅析XXE攻击/" class="article-date">
+      <time datetime="2017-02-20T16:00:00.000Z" itemprop="datePublished">2017-02-21</time>
 </a>
 
 
@@ -287,7 +294,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      文件上传
+      浅析XXE攻击
     </h1>
   
 
@@ -296,13 +303,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/web安全/">web安全</a>
+    <a class="article-category-link" href="/categories/WEB安全/">WEB安全</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/安全编程/">安全编程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/文件上传/">文件上传</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/漏洞防御/">漏洞防御</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/XML/">XML</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/XXE/">XXE</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/漏洞防御/">漏洞防御</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -313,9 +320,40 @@
       
           
         <blockquote>
-<p>文件上传漏洞可以说是渗透测试很常见很常见的一个漏洞，因为用它获得服务器权限最快最直接。但是想真正把这个漏洞利用好却不那么容易，其中有很多技巧，也有很多需要掌握的知识。<br><a id="more"></a><br>我就不自己写了，在网上找了两篇总结得很全的文章。<br><br><a href="http://thief.one/2016/09/22/上传木马姿势汇总-欢迎补充/" target="_blank" rel="external">thief.one</a><br><br><a href="https://xianzhi.aliyun.com/forum/read/458.html?fpage=2" target="_blank" rel="external">阿里先知</a><br><br><a href="https://xianzhi.aliyun.com/forum/read/672.html" target="_blank" rel="external">阿里先知2</a></p>
+<p>内容<br>from：<a href="http://www.freebuf.com/articles/web/126788.html" target="_blank" rel="external">freebuf</a><br><a id="more"></a></p>
+<h3 id="0x00-介绍"><a href="#0x00-介绍" class="headerlink" title="0x00 介绍"></a>0x00 介绍</h3><p>现在越来越多主要的web程序被发现和报告存在XXE(XML External Entity attack)漏洞，比如说facebook、paypal等等。 举个例子，我们扫一眼这些网站最近奖励的漏洞，充分证实了前面的说法。尽管XXE漏洞已经存在了很多年，但是它从来没有获得它应得的关注度。很多XML的解析器默认是含有XXE漏洞的，这意味着开发人员有责任确保这些程序不受此漏洞的影响。 </p>
 </blockquote>
-<h3 id="说两句"><a href="#说两句" class="headerlink" title="说两句"></a>说两句</h3><p>有些文件上传是json格式，但是只要变通，上面的套路是可以套进去的，原理还是文件上次。</p>
+<p>本文主要讨论什么是XML外部实体，这些外部实体是如何被攻击的。</p>
+<h3 id="0x01-什么是XML外部实体？"><a href="#0x01-什么是XML外部实体？" class="headerlink" title="0x01 什么是XML外部实体？"></a>0x01 什么是XML外部实体？</h3><p>如果你了解XML，你可以把XML理解为一个用来定义数据的东东。因此，两个采用不同技术的系统可以通过XML进行通信和交换数据。 比如，下图就是一个用来描述一个职工的XML文档样本，其中的’name’,’salary’,’address’ 被称为XML的元素。</p>
+<p><center><img src="http://image.3001.net/2017/02/21cd690cb4746d7146c5ef9f951d5746.jpg" alt="1"></center><br>有些XML文档包含system标识符定义的“实体”，这些XML文档会在DOCTYPE头部标签中呈现。这些定义的’实体’能够访问本地或者远程的内容。比如，下面的XML文档样例就包含了XML ‘实体’。</p>
+<p><center><img src="http://image.3001.net/2017/02/b420129eeae40a064355b2e8329d7393.jpg" alt="2"></center><br>在上面的代码中， XML外部实体 <code>‘entityex’</code>被赋予的值为：<code>file://etc/passwd</code>。在解析XML文档的过程中，实体<code>’entityex’</code>的值会被替换为URI<code>(file://etc/passwd)</code>内容值（也就是passwd文件的内容）。 关键字<code>’SYSTEM’</code>会告诉XML解析器，<code>’entityex’</code>实体的值将从其后的<a href="https://zhidao.baidu.com/question/521319970.html" target="_blank" rel="external">URI</a>中读取。因此，XML实体被使用的次数越多，越有帮助。</p>
+<h3 id="0x02-什么是XML外部实体攻击？"><a href="#0x02-什么是XML外部实体攻击？" class="headerlink" title="0x02 什么是XML外部实体攻击？"></a>0x02 什么是XML外部实体攻击？</h3><p>有了XML实体，关键字’SYSTEM’会令XML解析器从URI中读取内容，并允许它在XML文档中被替换。因此，攻击者可以通过实体将他自定义的值发送给应用程序，然后让应用程序去呈现。 简单来说，攻击者强制XML解析器去访问攻击者指定的资源内容（可能是系统上本地文件亦或是远程系统上的文件）。比如，下面的代码将获取系统上folder/file的内容并呈献给用户。</p>
+<p><center><img src="http://image.3001.net/2017/02/f8743d6009c3adc3b15c06970df03b80.jpg" alt="3"></center></p>
+<h3 id="0x03-怎么甄别一个XML实体攻击漏洞？"><a href="#0x03-怎么甄别一个XML实体攻击漏洞？" class="headerlink" title="0x03 怎么甄别一个XML实体攻击漏洞？"></a>0x03 怎么甄别一个XML实体攻击漏洞？</h3><p>最直接的回答就是： 甄别那些接受XML作为输入内容的端点。 但是有时候，这些端点可能并不是那么明显(比如，一些仅使用JSON去访问服务的客户端)。在这种情况下，渗透测试人员就必须尝试不同的测试方式，比如修改HTTP的请求方法，修改Content-Type头部字段等等方法，然后看看应用程序的响应，看看程序是否解析了发送的内容，如果解析了，那么则可能有XXE攻击漏洞。</p>
+<h3 id="0x04-0×04-如何确认XXE漏洞？"><a href="#0x04-0×04-如何确认XXE漏洞？" class="headerlink" title="0x04 0×04. 如何确认XXE漏洞？"></a>0x04 0×04. 如何确认XXE漏洞？</h3><p>出于演示的目的，我们将用到一个Acunetix维护的demo站点，这个站点就是: <a href="http://testhtml5.vulnweb.com/" target="_blank" rel="external">http://testhtml5.vulnweb.com/</a>。这个站点可用于测试Acunetix web扫描器的功能。 访问 <a href="http://testhtml5.vulnweb.com/" target="_blank" rel="external">http://testhtml5.vulnweb.com/</a> 站点，点击 <code>‘Login’</code>下面的 <code>‘Forgot Password’</code>链接。注意观察应用程序怎样使用XML传输数据，过程如下图所示：</p>
+<p>请求：<center><img src="http://image.3001.net/2017/02/95a566a1d0820afbe83eb2a0b627c8a1.jpg" alt="4"></center><br><br>响应：</p>
+<p><center><img src="http://image.3001.net/2017/02/e93606466b7f036abf45619ee44c80b6.jpg" alt="6"></center><br>观察上面的请求与响应，我们可以看到，应用程序正在解析XML内容，接受特定的输入，然后将其呈现给用户。为了测试验证XML解析器确实正在解析和执行我们自定义的XML内容，我们发送如下的请求</p>
+<p>修改后的请求和响应：</p>
+<p><center><img src="http://image.3001.net/2017/02/5a9d492d665886b1842a99f5aad5fd10.jpg" alt="7"></center><br>如上图所示，我们在上面的请求中定义了一个名为myentity、值为’testing’的实体。 响应报文清晰地展示了解析器已经解析了我们发送的XML实体，然后并将实体内容呈现出来了。 由此，我们可以确认，这个应用程序存在XXE漏洞。</p>
+<h3 id="0×05-如何进行XXE攻击？"><a href="#0×05-如何进行XXE攻击？" class="headerlink" title="0×05. 如何进行XXE攻击？"></a>0×05. 如何进行XXE攻击？</h3><h4 id="1-读取本地文件"><a href="#1-读取本地文件" class="headerlink" title="1. 读取本地文件"></a>1. 读取本地文件</h4><h4 id="2-耗尽服务器内存（拒绝服务攻击）"><a href="#2-耗尽服务器内存（拒绝服务攻击）" class="headerlink" title="2. 耗尽服务器内存（拒绝服务攻击）"></a>2. 耗尽服务器内存（拒绝服务攻击）</h4><pre><code>
+<?xml version="1.0"?>
+     <!DOCTYPE lolz [
+     <!ENTITY lol "lol">
+     <!ENTITY lol2 "&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;">
+     <!ENTITY lol3 "&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;">
+     <!ENTITY lol4 "&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;">
+     <!ENTITY lol5 "&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;">
+     <!ENTITY lol6 "&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;">
+     <!ENTITY lol7 "&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;">
+     <!ENTITY lol8 "&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;">
+     <!ENTITY lol9 "&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;">
+     ]>
+     <lolz>&lol9;</lolz>
+</code></pre>
+
+<p>上面样例2中的XXE漏洞攻击就是著名的’billion laughs’(<a href="https://en.wikipedia.org/wiki/Billion_laughs)攻击，该攻击通过创建一项递归的" target="_blank" rel="external">https://en.wikipedia.org/wiki/Billion_laughs)攻击，该攻击通过创建一项递归的</a> XML 定义，在内存中生成十亿个”Ha！”字符串，从而导致 DDoS 攻击。原理为：构造恶意的XML实体文件耗尽可用内存，因为许多XML解析器在解析XML文档时倾向于将它的整个结构保留在内存中，解析非常慢，造成了拒绝服务器攻击。除了这些，攻击者还可以读取服务器上的敏感数据，还能通过端口扫描，获取后端系统的开放端口。</p>
+<h4 id="漏洞修补"><a href="#漏洞修补" class="headerlink" title="漏洞修补"></a>漏洞修补</h4><p>上面讨论的主要问题就是XML解析器解析了用户发送的不可信数据。然而，要去校验DTD(document type definition)中SYSTEM标识符定义的数据，并不容易，也不大可能。大部分的XML解析器默认对于XXE攻击是脆弱的。因此，最好的解决办法就是配置XML处理器去使用本地静态的DTD，不允许XML中含有任何自己声明的DTD。</p>
+<p>比如下面的Java代码，通过设置相应的属性值为false，XML外部实体攻击就能够被阻止。因此，可将外部实体、参数实体和内联DTD 都被设置为false，从而避免基于XXE漏洞的攻击。 </p>
 
       
     </div>
@@ -324,13 +362,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2017/02/14/文件上传/">文件上传</a></p>
+        <p><span>本文标题:</span><a href="/2017/02/21/浅析XXE攻击/">浅析XXE攻击</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">drops0hong</a></p>
-        <p><span>发布时间:</span>2017-02-14, 00:00:00</p>
-        <p><span>最后更新:</span>2017-02-14, 17:36:59</p>
+        <p><span>发布时间:</span>2017-02-21, 00:00:00</p>
+        <p><span>最后更新:</span>2017-02-21, 10:37:56</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2017/02/14/文件上传/" title="文件上传">http://wkh.dropsec.xyz/2017/02/14/文件上传/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://wkh.dropsec.xyz/2017/02/14/文件上传/　　作者: drops0hong" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2017/02/21/浅析XXE攻击/" title="浅析XXE攻击">http://wkh.dropsec.xyz/2017/02/21/浅析XXE攻击/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://wkh.dropsec.xyz/2017/02/21/浅析XXE攻击/　　作者: drops0hong" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -342,16 +380,10 @@
 
     <nav id="article-nav">
         
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2017/02/14/java学习笔记/">
-                    java学习笔记
-                </a>
-            </div>
-        
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2017/02/06/文件包含总结及防御/">
-                    文件包含总结及防御
+                <a href="/2017/02/14/java学习笔记/">
+                    java学习笔记
                 </a>
             </div>
         
@@ -363,7 +395,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#说两句"><span class="toc-number">1.</span> <span class="toc-text">说两句</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x00-介绍"><span class="toc-number">1.</span> <span class="toc-text">0x00 介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-什么是XML外部实体？"><span class="toc-number">2.</span> <span class="toc-text">0x01 什么是XML外部实体？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-什么是XML外部实体攻击？"><span class="toc-number">3.</span> <span class="toc-text">0x02 什么是XML外部实体攻击？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x03-怎么甄别一个XML实体攻击漏洞？"><span class="toc-number">4.</span> <span class="toc-text">0x03 怎么甄别一个XML实体攻击漏洞？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x04-0×04-如何确认XXE漏洞？"><span class="toc-number">5.</span> <span class="toc-text">0x04 0×04. 如何确认XXE漏洞？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0×05-如何进行XXE攻击？"><span class="toc-number">6.</span> <span class="toc-text">0×05. 如何进行XXE攻击？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-读取本地文件"><span class="toc-number">6.1.</span> <span class="toc-text">1. 读取本地文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-耗尽服务器内存（拒绝服务攻击）"><span class="toc-number">6.2.</span> <span class="toc-text">2. 耗尽服务器内存（拒绝服务攻击）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#漏洞修补"><span class="toc-number">6.3.</span> <span class="toc-text">漏洞修补</span></a></li></ol></li></ol>
         
     </div>
     <style>
@@ -399,7 +431,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"文件上传　| drops0hong's Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"浅析XXE攻击　| drops0hong's Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -415,7 +447,7 @@
     
       <div class="duoshuo" id="comments">
     <div id="comment-box" ></div>
-    <div class="ds-thread" id="ds-thread" data-thread-key="2017/02/14/文件上传/" data-title="文件上传" data-url="http://wkh.dropsec.xyz/2017/02/14/文件上传/"></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2017/02/21/浅析XXE攻击/" data-title="浅析XXE攻击" data-url="http://wkh.dropsec.xyz/2017/02/21/浅析XXE攻击/"></div>
     <script>
         var duoshuoQuery = {short_name:"null"};
         var loadComment = function(){
@@ -438,15 +470,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2017/02/14/java学习笔记/" title="上一篇: java学习笔记">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
 
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2017/02/06/文件包含总结及防御/" title="下一篇: 文件包含总结及防御">
+            <a href="/2017/02/14/java学习笔记/" title="下一篇: java学习笔记">
                 <i class="fa fa-angle-right"></i>
             </a>
         

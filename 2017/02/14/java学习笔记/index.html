@@ -23,7 +23,8 @@
 <meta property="og:description" content="由于公司项目需求和个人发展需求，近期要开始学习java了，先定一个小目标：先把java基础过一遍，往下是学习JSP。">
 <meta property="og:image" content="http://oacefhv01.bkt.clouddn.com/java%E7%A8%8B%E5%BA%8F%E7%BB%93%E6%9E%84.png">
 <meta property="og:image" content="http://oacefhv01.bkt.clouddn.com/%E7%BC%96%E8%AF%91%E6%96%87%E4%BB%B6%E7%94%9F%E4%BA%A7.png">
-<meta property="og:updated_time" content="2017-02-14T07:45:10.190Z">
+<meta property="og:image" content="http://oacefhv01.bkt.clouddn.com/%E6%95%B0%E7%BB%84%E7%A9%BA%E6%8C%87%E9%92%88%E5%BC%82%E5%B8%B8%E5%88%86%E6%9E%90.png">
+<meta property="og:updated_time" content="2017-02-20T10:26:16.371Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java学习笔记">
 <meta name="twitter:description" content="由于公司项目需求和个人发展需求，近期要开始学习java了，先定一个小目标：先把java基础过一遍，往下是学习JSP。">
@@ -188,7 +189,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP文件包含/">PHP文件包含</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webshell查杀/">webshell查杀</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/万能Cookie/">万能Cookie</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安全编程/">安全编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安全配置/">安全配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/应急响应/">应急响应</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传/">文件上传</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/未授权访问/">未授权访问</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/漏洞防御/">漏洞防御</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/病毒木马查杀/">病毒木马查杀</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编程/">编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/错误的权限验证/">错误的权限验证</a></li></ul>
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP文件包含/">PHP文件包含</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XML/">XML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XXE/">XXE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webshell查杀/">webshell查杀</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/万能Cookie/">万能Cookie</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安全编程/">安全编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安全配置/">安全配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/应急响应/">应急响应</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传/">文件上传</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/未授权访问/">未授权访问</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/漏洞防御/">漏洞防御</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/病毒木马查杀/">病毒木马查杀</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编程/">编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/错误的权限验证/">错误的权限验证</a></li></ul>
                     </div>
                 </section>
                 
@@ -335,13 +336,8 @@
 <li>常量：每个单词都大写多个单词之间以下划线连接</li>
 </ul>
 <h3 id="1-3-变量"><a href="#1-3-变量" class="headerlink" title="1.3 变量"></a>1.3 变量</h3><p><strong>局部变量：</strong>定义在方法内部的变量叫局部变量，先定义后使用；</p>
-<pre><code>
-public class test{
-    public static void main(String args[]){
-         int i;
-    }
-}
-</code></pre>
+<p><pre><code><br>public class test{<br>    public static void main(String args[]){<br>         int i;<br>    }<br>}<br></code></pre></p>
+<h3 id="1-3-数组"><a href="#1-3-数组" class="headerlink" title="1.3 数组"></a>1.3 数组</h3><p><strong>数组的定义：</strong>存储同一种数据类型集合的容器，<br>如<code>int[] arr = new arr[n]</code><br><br>数组容易最出现问题：<br><strong>数组空指针异常</strong><br><img src="http://oacefhv01.bkt.clouddn.com/%E6%95%B0%E7%BB%84%E7%A9%BA%E6%8C%87%E9%92%88%E5%BC%82%E5%B8%B8%E5%88%86%E6%9E%90.png" alt="1"><br><br><br><strong>数组工具：</strong><code>arrays</code><br>导入：import java.util Arrays;</p>
 
       
     </div>
@@ -353,7 +349,7 @@ public class test{
         <p><span>本文标题:</span><a href="/2017/02/14/java学习笔记/">java学习笔记</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">drops0hong</a></p>
         <p><span>发布时间:</span>2017-02-14, 00:00:00</p>
-        <p><span>最后更新:</span>2017-02-14, 15:45:10</p>
+        <p><span>最后更新:</span>2017-02-20, 18:26:16</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/02/14/java学习笔记/" title="java学习笔记">http://wkh.dropsec.xyz/2017/02/14/java学习笔记/</a>
             <span class="copy-path" data-clipboard-text="原文: http://wkh.dropsec.xyz/2017/02/14/java学习笔记/　　作者: drops0hong" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -367,6 +363,12 @@ public class test{
 
 
     <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2017/02/21/浅析XXE攻击/">
+                    浅析XXE攻击
+                </a>
+            </div>
         
         
             <div id="article-nav-older" class="article-nav-title">
@@ -383,7 +385,7 @@ public class test{
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、基础知识"><span class="toc-number">1.</span> <span class="toc-text">1、基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-入门第一课"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 入门第一课</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-命名规则"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 命名规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-变量"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 变量</span></a></li></ol></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、基础知识"><span class="toc-number">1.</span> <span class="toc-text">1、基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-入门第一课"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 入门第一课</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-命名规则"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 命名规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-变量"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-数组"><span class="toc-number">1.4.</span> <span class="toc-text">1.3 数组</span></a></li></ol></li></ol>
         
     </div>
     <style>
@@ -458,7 +460,9 @@ public class test{
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+            <a href="/2017/02/21/浅析XXE攻击/" title="上一篇: 浅析XXE攻击">
+                <i class="fa fa-angle-left"></i>
+            </a>
         
 
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
@@ -470,7 +474,7 @@ public class test{
         
     </div>
 
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/02/14/java学习笔记/">java学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/14/文件上传/">文件上传</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/06/文件包含总结及防御/">文件包含总结及防御</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/04/应急笔记/">应急笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/mongodb未授权访问/">大量Mongodb被挟持原因分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/一次不想说的比赛/">一次不想说的比赛</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/02/21/浅析XXE攻击/">浅析XXE攻击</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/14/java学习笔记/">java学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/14/文件上传/">文件上传</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/06/文件包含总结及防御/">文件包含总结及防御</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/04/应急笔记/">应急笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/mongodb未授权访问/">大量Mongodb被挟持原因分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/一次不想说的比赛/">一次不想说的比赛</a></li></ul>
 
 
 
