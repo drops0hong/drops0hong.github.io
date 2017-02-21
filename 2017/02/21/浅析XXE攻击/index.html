@@ -27,7 +27,7 @@
 <meta property="og:image" content="http://image.3001.net/2017/02/95a566a1d0820afbe83eb2a0b627c8a1.jpg">
 <meta property="og:image" content="http://image.3001.net/2017/02/e93606466b7f036abf45619ee44c80b6.jpg">
 <meta property="og:image" content="http://image.3001.net/2017/02/5a9d492d665886b1842a99f5aad5fd10.jpg">
-<meta property="og:updated_time" content="2017-02-21T02:37:56.860Z">
+<meta property="og:updated_time" content="2017-02-21T03:00:09.717Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅析XXE攻击">
 <meta name="twitter:description" content="内容from：freebuf">
@@ -335,25 +335,10 @@
 <p><center><img src="http://image.3001.net/2017/02/e93606466b7f036abf45619ee44c80b6.jpg" alt="6"></center><br>观察上面的请求与响应，我们可以看到，应用程序正在解析XML内容，接受特定的输入，然后将其呈现给用户。为了测试验证XML解析器确实正在解析和执行我们自定义的XML内容，我们发送如下的请求</p>
 <p>修改后的请求和响应：</p>
 <p><center><img src="http://image.3001.net/2017/02/5a9d492d665886b1842a99f5aad5fd10.jpg" alt="7"></center><br>如上图所示，我们在上面的请求中定义了一个名为myentity、值为’testing’的实体。 响应报文清晰地展示了解析器已经解析了我们发送的XML实体，然后并将实体内容呈现出来了。 由此，我们可以确认，这个应用程序存在XXE漏洞。</p>
-<h3 id="0×05-如何进行XXE攻击？"><a href="#0×05-如何进行XXE攻击？" class="headerlink" title="0×05. 如何进行XXE攻击？"></a>0×05. 如何进行XXE攻击？</h3><h4 id="1-读取本地文件"><a href="#1-读取本地文件" class="headerlink" title="1. 读取本地文件"></a>1. 读取本地文件</h4><h4 id="2-耗尽服务器内存（拒绝服务攻击）"><a href="#2-耗尽服务器内存（拒绝服务攻击）" class="headerlink" title="2. 耗尽服务器内存（拒绝服务攻击）"></a>2. 耗尽服务器内存（拒绝服务攻击）</h4><pre><code>
-<?xml version="1.0"?>
-     <!DOCTYPE lolz [
-     <!ENTITY lol "lol">
-     <!ENTITY lol2 "&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;">
-     <!ENTITY lol3 "&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;">
-     <!ENTITY lol4 "&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;">
-     <!ENTITY lol5 "&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;">
-     <!ENTITY lol6 "&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;">
-     <!ENTITY lol7 "&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;">
-     <!ENTITY lol8 "&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;">
-     <!ENTITY lol9 "&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;">
-     ]>
-     <lolz>&lol9;</lolz>
-</code></pre>
-
-<p>上面样例2中的XXE漏洞攻击就是著名的’billion laughs’(<a href="https://en.wikipedia.org/wiki/Billion_laughs)攻击，该攻击通过创建一项递归的" target="_blank" rel="external">https://en.wikipedia.org/wiki/Billion_laughs)攻击，该攻击通过创建一项递归的</a> XML 定义，在内存中生成十亿个”Ha！”字符串，从而导致 DDoS 攻击。原理为：构造恶意的XML实体文件耗尽可用内存，因为许多XML解析器在解析XML文档时倾向于将它的整个结构保留在内存中，解析非常慢，造成了拒绝服务器攻击。除了这些，攻击者还可以读取服务器上的敏感数据，还能通过端口扫描，获取后端系统的开放端口。</p>
+<h3 id="0×05-如何进行XXE攻击？"><a href="#0×05-如何进行XXE攻击？" class="headerlink" title="0×05. 如何进行XXE攻击？"></a>0×05. 如何进行XXE攻击？</h3><h4 id="1-读取本地文件"><a href="#1-读取本地文件" class="headerlink" title="1. 读取本地文件"></a>1. 读取本地文件</h4><h4 id="2-耗尽服务器内存（拒绝服务攻击）"><a href="#2-耗尽服务器内存（拒绝服务攻击）" class="headerlink" title="2. 耗尽服务器内存（拒绝服务攻击）"></a>2. 耗尽服务器内存（拒绝服务攻击）</h4><p>上面样例2中的XXE漏洞攻击就是著名的’billion laughs’(<a href="https://en.wikipedia.org/wiki/Billion_laughs)攻击，该攻击通过创建一项递归的" target="_blank" rel="external">https://en.wikipedia.org/wiki/Billion_laughs)攻击，该攻击通过创建一项递归的</a> XML 定义，在内存中生成十亿个”Ha！”字符串，从而导致 DDoS 攻击。原理为：构造恶意的XML实体文件耗尽可用内存，因为许多XML解析器在解析XML文档时倾向于将它的整个结构保留在内存中，解析非常慢，造成了拒绝服务器攻击。除了这些，攻击者还可以读取服务器上的敏感数据，还能通过端口扫描，获取后端系统的开放端口。</p>
 <h4 id="漏洞修补"><a href="#漏洞修补" class="headerlink" title="漏洞修补"></a>漏洞修补</h4><p>上面讨论的主要问题就是XML解析器解析了用户发送的不可信数据。然而，要去校验DTD(document type definition)中SYSTEM标识符定义的数据，并不容易，也不大可能。大部分的XML解析器默认对于XXE攻击是脆弱的。因此，最好的解决办法就是配置XML处理器去使用本地静态的DTD，不允许XML中含有任何自己声明的DTD。</p>
 <p>比如下面的Java代码，通过设置相应的属性值为false，XML外部实体攻击就能够被阻止。因此，可将外部实体、参数实体和内联DTD 都被设置为false，从而避免基于XXE漏洞的攻击。 </p>
+<h3 id="0x06-XXE利用资料"><a href="#0x06-XXE利用资料" class="headerlink" title="0x06 XXE利用资料"></a>0x06 XXE利用资料</h3><p><a href="http://xdxd.love/2016/09/08/一个blind-XXE漏洞利用分析/" target="_blank" rel="external">1、一个blind XXE漏洞利用工具XXEinjector</a><br><br><a href="http://www.freebuf.com/articles/web/97833.html" target="_blank" rel="external">2、DTD/XXE 攻击笔记分享</a><br><br><a href="http://wooyun.jozxing.cc/static/drops/papers-6035.html" target="_blank" rel="external">3、Oracle盲注结合XXE漏洞远程获取数据</a><br><br><a href="http://wooyun.jozxing.cc/search?keywords=xxe&amp;content_search_by=by_bugs" target="_blank" rel="external">4、乌云漏洞库</a></p>
 
       
     </div>
@@ -365,7 +350,7 @@
         <p><span>本文标题:</span><a href="/2017/02/21/浅析XXE攻击/">浅析XXE攻击</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">drops0hong</a></p>
         <p><span>发布时间:</span>2017-02-21, 00:00:00</p>
-        <p><span>最后更新:</span>2017-02-21, 10:37:56</p>
+        <p><span>最后更新:</span>2017-02-21, 11:00:09</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/02/21/浅析XXE攻击/" title="浅析XXE攻击">http://wkh.dropsec.xyz/2017/02/21/浅析XXE攻击/</a>
             <span class="copy-path" data-clipboard-text="原文: http://wkh.dropsec.xyz/2017/02/21/浅析XXE攻击/　　作者: drops0hong" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -395,7 +380,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x00-介绍"><span class="toc-number">1.</span> <span class="toc-text">0x00 介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-什么是XML外部实体？"><span class="toc-number">2.</span> <span class="toc-text">0x01 什么是XML外部实体？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-什么是XML外部实体攻击？"><span class="toc-number">3.</span> <span class="toc-text">0x02 什么是XML外部实体攻击？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x03-怎么甄别一个XML实体攻击漏洞？"><span class="toc-number">4.</span> <span class="toc-text">0x03 怎么甄别一个XML实体攻击漏洞？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x04-0×04-如何确认XXE漏洞？"><span class="toc-number">5.</span> <span class="toc-text">0x04 0×04. 如何确认XXE漏洞？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0×05-如何进行XXE攻击？"><span class="toc-number">6.</span> <span class="toc-text">0×05. 如何进行XXE攻击？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-读取本地文件"><span class="toc-number">6.1.</span> <span class="toc-text">1. 读取本地文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-耗尽服务器内存（拒绝服务攻击）"><span class="toc-number">6.2.</span> <span class="toc-text">2. 耗尽服务器内存（拒绝服务攻击）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#漏洞修补"><span class="toc-number">6.3.</span> <span class="toc-text">漏洞修补</span></a></li></ol></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x00-介绍"><span class="toc-number">1.</span> <span class="toc-text">0x00 介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-什么是XML外部实体？"><span class="toc-number">2.</span> <span class="toc-text">0x01 什么是XML外部实体？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-什么是XML外部实体攻击？"><span class="toc-number">3.</span> <span class="toc-text">0x02 什么是XML外部实体攻击？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x03-怎么甄别一个XML实体攻击漏洞？"><span class="toc-number">4.</span> <span class="toc-text">0x03 怎么甄别一个XML实体攻击漏洞？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x04-0×04-如何确认XXE漏洞？"><span class="toc-number">5.</span> <span class="toc-text">0x04 0×04. 如何确认XXE漏洞？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0×05-如何进行XXE攻击？"><span class="toc-number">6.</span> <span class="toc-text">0×05. 如何进行XXE攻击？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-读取本地文件"><span class="toc-number">6.1.</span> <span class="toc-text">1. 读取本地文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-耗尽服务器内存（拒绝服务攻击）"><span class="toc-number">6.2.</span> <span class="toc-text">2. 耗尽服务器内存（拒绝服务攻击）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#漏洞修补"><span class="toc-number">6.3.</span> <span class="toc-text">漏洞修补</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x06-XXE利用资料"><span class="toc-number">7.</span> <span class="toc-text">0x06 XXE利用资料</span></a></li></ol>
         
     </div>
     <style>
