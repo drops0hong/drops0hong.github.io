@@ -15,16 +15,21 @@
 
 
 
-<meta name="description" content="&amp;lt;!DOCTYPE HTML&amp;gt;">
-<meta property="og:type" content="website">
-<meta property="og:title" content="不要点了，404没看到吗！">
-<meta property="og:url" content="http://wkh.dropsec.xyz/404.html">
+<meta name="description" content="前段时间发现一个开发人员很容易出错的密码找回问题（当然是个已知的问题），然后在补天上根据特点随便找了几个厂商，一试确实存在（也赚了一些库币）。今天就记录一下我总结的经验。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="密码找回逻辑漏洞研究">
+<meta property="og:url" content="http://wkh.dropsec.xyz/2017/02/22/密码找回逻辑漏洞研究/index.html">
 <meta property="og:site_name" content="drops0hong's Blog">
-<meta property="og:description" content="&amp;lt;!DOCTYPE HTML&amp;gt;">
-<meta property="og:updated_time" content="2017-01-16T08:24:12.453Z">
+<meta property="og:description" content="前段时间发现一个开发人员很容易出错的密码找回问题（当然是个已知的问题），然后在补天上根据特点随便找了几个厂商，一试确实存在（也赚了一些库币）。今天就记录一下我总结的经验。">
+<meta property="og:image" content="http://oacefhv01.bkt.clouddn.com/1.png">
+<meta property="og:image" content="http://oacefhv01.bkt.clouddn.com/2.png">
+<meta property="og:image" content="http://oacefhv01.bkt.clouddn.com/3.png">
+<meta property="og:image" content="http://oacefhv01.bkt.clouddn.com/44.png">
+<meta property="og:updated_time" content="2017-02-22T05:02:07.787Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="不要点了，404没看到吗！">
-<meta name="twitter:description" content="&amp;lt;!DOCTYPE HTML&amp;gt;">
+<meta name="twitter:title" content="密码找回逻辑漏洞研究">
+<meta name="twitter:description" content="前段时间发现一个开发人员很容易出错的密码找回问题（当然是个已知的问题），然后在补天上根据特点随便找了几个厂商，一试确实存在（也赚了一些库币）。今天就记录一下我总结的经验。">
+<meta name="twitter:image" content="http://oacefhv01.bkt.clouddn.com/1.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -56,7 +61,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>不要点了，404没看到吗！ | drops0hong&#39;s Blog</title>
+<title>密码找回逻辑漏洞研究 | drops0hong&#39;s Blog</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -66,7 +71,7 @@
         fancybox: true,
         animate: true,
         isHome: false,
-        isPost: false,
+        isPost: true,
         isArchive: false,
         isTag: false,
         isCategory: false,
@@ -268,11 +273,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="page-undefined" class="article article-type-page" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-密码找回逻辑漏洞研究" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/404.html" class="article-date">
-      <time datetime="2017-01-16T08:24:12.453Z" itemprop="datePublished">2017-01-16</time>
+      <a href="/2017/02/22/密码找回逻辑漏洞研究/" class="article-date">
+      <time datetime="2017-02-21T16:00:00.000Z" itemprop="datePublished">2017-02-22</time>
 </a>
 
 
@@ -287,7 +292,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      不要点了，404没看到吗！
+      密码找回逻辑漏洞研究
     </h1>
   
 
@@ -295,8 +300,16 @@
       
       <div class="article-info article-info-post">
         
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/WEB安全/">WEB安全</a>
+    </div>
+
 
         
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/信息收集/">信息收集</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/密码找回/">密码找回</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/逻辑漏洞/">逻辑漏洞</a></li></ul>
+    </div>
+
         <div class="clearfix"></div>
       </div>
       
@@ -304,28 +317,46 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <style>
-    .article-meta { display: none; }
-    #container .article .article-title { padding-right: 0; }
-    .article-header {
-        padding: 0;
-        padding-top: 26px;
-        border-left: none;
-        text-align: center;
-    }
-    .article-header:hover { border-left: none; }
-    .article-title { font-size: 1.6em }
-    .article-entry hr { margin: 0;}
-    .article-meta,
-    #container .article-info-post.article-info { display: none;}
-    #container .article .article-title { padding: 0; }
-</style>
-
-
-          
-        <p>&lt;!DOCTYPE HTML&gt;</p>
-<html><br><head><br>  <meta http-equiv="content-type" content="text/html;charset=utf-8;"><br><br><br><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><br>  <meta name="robots" content="all"><br>  <meta name="robots" content="index,follow"><br></head><br><body><script type="text/javascript" src="http://www.qq.com/404/search_children.js" charset="utf-8" homepageurl="http://wkh.dropsec.xyz" homepagename="回到博客主页"></script></body><br></html>
-
+        <blockquote>
+<p>前段时间发现一个开发人员很容易出错的密码找回问题（当然是个已知的问题），然后在补天上根据特点随便找了几个厂商，一试确实存在（也赚了一些库币）。今天就记录一下我总结的经验。<br><a id="more"></a></p>
+<h3 id="0x00-常见的密码找回逻辑问题"><a href="#0x00-常见的密码找回逻辑问题" class="headerlink" title="0x00 常见的密码找回逻辑问题"></a>0x00 常见的密码找回逻辑问题</h3><ul>
+<li>验证码暴力破解</li>
+<li>顺序步骤绕过</li>
+<li>邮箱找回逻辑绕过</li>
+<li>手机找回逻辑绕过</li>
+</ul>
+</blockquote>
+<p>要总结起来也很多很细，前人已经总结了，我就不重复啰嗦了<a href="https://raw.githubusercontent.com/phith0n/Mind-Map/master/%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E.png" target="_blank" rel="external">P牛github脑图。</a></p>
+<h3 id="0x01-异步重置"><a href="#0x01-异步重置" class="headerlink" title="0x01 异步重置"></a>0x01 异步重置</h3><p>为了显得高大上，起了个高大上的名字叫异步重置。今天要记录的这种重置方式的原理其实就是开发人员靠Cookie识别找回密码者的身份的，只要将Cookie覆盖或者伪造即可达到任意用户密码重置的目的。<br><br><strong>举个栗子（拿我补天提交的展示过程）：</strong><br><br>1.用我自己手机注册个账号，然后找回密码，输入短信验证码，跳转到重置密码页，停住不动，用我自己的手机号已经走到重置密码的页面了，如下图：<br><img src="http://oacefhv01.bkt.clouddn.com/1.png" alt="1"><br>2.在同一个浏览器下新建窗口，找回要攻击的手机号的密码,输入手机号，找了该网站HR的手机号重置，输入图片验证码提交。<br><img src="http://oacefhv01.bkt.clouddn.com/2.png" alt="2"><br>3.好了！Cookie信息已经覆盖了，不用再输短信验证码了。刷新一下我刚刚第一步停住的重置密码页面，看要重置的手机号变了：<br><img src="http://oacefhv01.bkt.clouddn.com/3.png" alt="3"></p>
+<h3 id="0x02-黑盒如何快速判定存在此类漏洞"><a href="#0x02-黑盒如何快速判定存在此类漏洞" class="headerlink" title="0x02 黑盒如何快速判定存在此类漏洞"></a>0x02 黑盒如何快速判定存在此类漏洞</h3><p>经过两次测试，我确定了此类漏洞一些共同点，可快速找到存在此类密码重置问题（我试了5个有3个存在）：<br></p>
+<ul>
+<li>以手机验证码方式找回密码 </li>
+<li>找回密码一般分为3步及3步以上 </li>
+<li>第一步是输入手机号码和图片验证码<br><br></li>
+</ul>
+<p>其实很容易想清楚，由于是靠Cookie验证身份，只要通过了账号和图片验证码的这一步，Cookie就记录某个特定用户的身份信息。</p>
+<h3 id="0x03-如何找回权限比较大用户的密码"><a href="#0x03-如何找回权限比较大用户的密码" class="headerlink" title="0x03 如何找回权限比较大用户的密码"></a>0x03 如何找回权限比较大用户的密码</h3><p>我们都知道权限比较大能够使测试更深入，能够获取的敏感信息也更多，也能够让厂商更重视安全问题。我一般通过以下几种方式：<br></p>
+<ul>
+<li><code>admin</code>、<code>system</code>等账号</li>
+<li>工商备案信息查询（一般都会留有联系方式）</li>
+<li>招聘信息（一般是hr联系方式）</li>
+<li>网站官网（关于我们，联系我们）</li>
+<li>whois信息（邮箱，手机号）<br><br></li>
+</ul>
+<p><strong>再用whois这种方式举个栗子：</strong><br>whois中的关键信息(有点社工的意思)<br></p>
+<ul>
+<li>联系人</li>
+<li>联系方式</li>
+<li>Registrant Phone</li>
+<li>Registrant Fax</li>
+<li>Registrant Email</li>
+<li>Admin Phone</li>
+<li>Admin Fax</li>
+<li>Tech Phone</li>
+<li>Tech Fax<br><br></li>
+</ul>
+<p>上面那个栗子我通过Tech Phone找回密码，得到的是管理员权限。<img src="http://oacefhv01.bkt.clouddn.com/44.png" alt="4"></p>
+<h3 id="0x04-相关知识"><a href="#0x04-相关知识" class="headerlink" title="0x04 相关知识"></a>0x04 相关知识</h3><p><a href="http://wooyun.jozxing.cc/static/drops/web-5048.html" target="_blank" rel="external">密码找回逻辑漏洞总结</a><br><br><a href="http://wooyun.jozxing.cc/static/drops/web-3295.html" target="_blank" rel="external">密码找回功能可能存在的问题（补充）</a><br><br><a href="http://wooyun.jozxing.cc/static/drops/papers-2035.html" target="_blank" rel="external">一些常见的重置密码漏洞分析整理</a><br><br><a href="http://docs.ioin.in/writeup/blog.heysec.org/_archives_643/index.html" target="_blank" rel="external">密码逻辑漏洞小总结</a></p>
 
       
     </div>
@@ -333,10 +364,59 @@
   </div>
   
     
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/02/22/密码找回逻辑漏洞研究/">密码找回逻辑漏洞研究</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">drops0hong</a></p>
+        <p><span>发布时间:</span>2017-02-22, 00:00:00</p>
+        <p><span>最后更新:</span>2017-02-22, 13:02:07</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/02/22/密码找回逻辑漏洞研究/" title="密码找回逻辑漏洞研究">http://wkh.dropsec.xyz/2017/02/22/密码找回逻辑漏洞研究/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://wkh.dropsec.xyz/2017/02/22/密码找回逻辑漏洞研究/　　作者: drops0hong" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
 
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/02/21/浅析XXE攻击/">
+                    浅析XXE攻击
+                </a>
+            </div>
+        
+    </nav>
 
   
 </article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x00-常见的密码找回逻辑问题"><span class="toc-number">1.</span> <span class="toc-text">0x00 常见的密码找回逻辑问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-异步重置"><span class="toc-number">2.</span> <span class="toc-text">0x01 异步重置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-黑盒如何快速判定存在此类漏洞"><span class="toc-number">3.</span> <span class="toc-text">0x02 黑盒如何快速判定存在此类漏洞</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x03-如何找回权限比较大用户的密码"><span class="toc-number">4.</span> <span class="toc-text">0x03 如何找回权限比较大用户的密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x04-相关知识"><span class="toc-number">5.</span> <span class="toc-text">0x04 相关知识</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
 
 
 
@@ -354,7 +434,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"不要点了，404没看到吗！　| drops0hong's Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"密码找回逻辑漏洞研究　| drops0hong's Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -367,13 +447,50 @@
 
 
 
+    
+      <div class="duoshuo" id="comments">
+    <div id="comment-box" ></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2017/02/22/密码找回逻辑漏洞研究/" data-title="密码找回逻辑漏洞研究" data-url="http://wkh.dropsec.xyz/2017/02/22/密码找回逻辑漏洞研究/"></div>
+    <script>
+        var duoshuoQuery = {short_name:"null"};
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            s.async = true; s.charset = 'UTF-8';
+            (d.head || d.body).appendChild(s);
+        }
+
+        
+    </script>
+    
+    <script> loadComment(); </script>
+
+</div>
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/02/21/浅析XXE攻击/" title="下一篇: 浅析XXE攻击">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/02/22/密码找回逻辑漏洞研究/">密码找回逻辑漏洞研究</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/21/浅析XXE攻击/">浅析XXE攻击</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/14/java学习笔记/">java学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/14/文件上传/">文件上传</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/06/文件包含总结及防御/">文件包含总结及防御</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/04/应急笔记/">应急笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/mongodb未授权访问/">大量Mongodb被挟持原因分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/一次不想说的比赛/">一次不想说的比赛</a></li></ul>
 
 
 
 
     <script>
-        
-            yiliaConfig.fancybox = false;
         
     </script>
 </div>
