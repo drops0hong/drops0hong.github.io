@@ -25,7 +25,7 @@
 <meta property="og:image" content="http://oacefhv01.bkt.clouddn.com/2.png">
 <meta property="og:image" content="http://oacefhv01.bkt.clouddn.com/3.png">
 <meta property="og:image" content="http://oacefhv01.bkt.clouddn.com/44.png">
-<meta property="og:updated_time" content="2017-02-22T05:02:07.787Z">
+<meta property="og:updated_time" content="2017-02-22T05:06:23.891Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="密码找回逻辑漏洞研究">
 <meta name="twitter:description" content="前段时间发现一个开发人员很容易出错的密码找回问题（当然是个已知的问题），然后在补天上根据特点随便找了几个厂商，一试确实存在（也赚了一些库币）。今天就记录一下我总结的经验。">
@@ -318,14 +318,15 @@
       
           
         <blockquote>
-<p>前段时间发现一个开发人员很容易出错的密码找回问题（当然是个已知的问题），然后在补天上根据特点随便找了几个厂商，一试确实存在（也赚了一些库币）。今天就记录一下我总结的经验。<br><a id="more"></a></p>
+<p>前段时间发现一个开发人员很容易出错的密码找回问题（当然是个已知的问题），然后在补天上根据特点随便找了几个厂商，一试确实存在（也赚了一些库币）。今天就记录一下我总结的经验。</p>
+</blockquote>
+<a id="more"></a>
 <h3 id="0x00-常见的密码找回逻辑问题"><a href="#0x00-常见的密码找回逻辑问题" class="headerlink" title="0x00 常见的密码找回逻辑问题"></a>0x00 常见的密码找回逻辑问题</h3><ul>
 <li>验证码暴力破解</li>
 <li>顺序步骤绕过</li>
 <li>邮箱找回逻辑绕过</li>
 <li>手机找回逻辑绕过</li>
 </ul>
-</blockquote>
 <p>要总结起来也很多很细，前人已经总结了，我就不重复啰嗦了<a href="https://raw.githubusercontent.com/phith0n/Mind-Map/master/%E5%AF%86%E7%A0%81%E6%89%BE%E5%9B%9E%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E.png" target="_blank" rel="external">P牛github脑图。</a></p>
 <h3 id="0x01-异步重置"><a href="#0x01-异步重置" class="headerlink" title="0x01 异步重置"></a>0x01 异步重置</h3><p>为了显得高大上，起了个高大上的名字叫异步重置。今天要记录的这种重置方式的原理其实就是开发人员靠Cookie识别找回密码者的身份的，只要将Cookie覆盖或者伪造即可达到任意用户密码重置的目的。<br><br><strong>举个栗子（拿我补天提交的展示过程）：</strong><br><br>1.用我自己手机注册个账号，然后找回密码，输入短信验证码，跳转到重置密码页，停住不动，用我自己的手机号已经走到重置密码的页面了，如下图：<br><img src="http://oacefhv01.bkt.clouddn.com/1.png" alt="1"><br>2.在同一个浏览器下新建窗口，找回要攻击的手机号的密码,输入手机号，找了该网站HR的手机号重置，输入图片验证码提交。<br><img src="http://oacefhv01.bkt.clouddn.com/2.png" alt="2"><br>3.好了！Cookie信息已经覆盖了，不用再输短信验证码了。刷新一下我刚刚第一步停住的重置密码页面，看要重置的手机号变了：<br><img src="http://oacefhv01.bkt.clouddn.com/3.png" alt="3"></p>
 <h3 id="0x02-黑盒如何快速判定存在此类漏洞"><a href="#0x02-黑盒如何快速判定存在此类漏洞" class="headerlink" title="0x02 黑盒如何快速判定存在此类漏洞"></a>0x02 黑盒如何快速判定存在此类漏洞</h3><p>经过两次测试，我确定了此类漏洞一些共同点，可快速找到存在此类密码重置问题（我试了5个有3个存在）：<br></p>
@@ -368,7 +369,7 @@
         <p><span>本文标题:</span><a href="/2017/02/22/密码找回逻辑漏洞研究/">密码找回逻辑漏洞研究</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">drops0hong</a></p>
         <p><span>发布时间:</span>2017-02-22, 00:00:00</p>
-        <p><span>最后更新:</span>2017-02-22, 13:02:07</p>
+        <p><span>最后更新:</span>2017-02-22, 13:06:23</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/02/22/密码找回逻辑漏洞研究/" title="密码找回逻辑漏洞研究">http://wkh.dropsec.xyz/2017/02/22/密码找回逻辑漏洞研究/</a>
             <span class="copy-path" data-clipboard-text="原文: http://wkh.dropsec.xyz/2017/02/22/密码找回逻辑漏洞研究/　　作者: drops0hong" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
