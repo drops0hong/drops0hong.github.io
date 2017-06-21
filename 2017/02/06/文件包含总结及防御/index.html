@@ -21,7 +21,7 @@
 <meta property="og:url" content="http://wkh.dropsec.xyz/2017/02/06/文件包含总结及防御/index.html">
 <meta property="og:site_name" content="drops0hong's Blog">
 <meta property="og:description" content="内容文件包含漏洞：PHP文件包含分类：1、本地文件包含；2、远程文件包含PHP包含漏洞上传技巧PHP文件包含读写文件PHP包含日志文件PHP包含截断">
-<meta property="og:updated_time" content="2017-02-14T05:43:42.962Z">
+<meta property="og:updated_time" content="2017-02-28T10:17:24.590Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="文件包含总结及防御">
 <meta name="twitter:description" content="内容文件包含漏洞：PHP文件包含分类：1、本地文件包含；2、远程文件包含PHP包含漏洞上传技巧PHP文件包含读写文件PHP包含日志文件PHP包含截断">
@@ -185,7 +185,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP文件包含/">PHP文件包含</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XML/">XML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XXE/">XXE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webshell查杀/">webshell查杀</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/万能Cookie/">万能Cookie</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/信息收集/">信息收集</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安全编程/">安全编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安全配置/">安全配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/密码找回/">密码找回</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/应急响应/">应急响应</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传/">文件上传</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/未授权访问/">未授权访问</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/漏洞防御/">漏洞防御</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/病毒木马查杀/">病毒木马查杀</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编程/">编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逻辑漏洞/">逻辑漏洞</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/错误的权限验证/">错误的权限验证</a></li></ul>
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP文件包含/">PHP文件包含</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XML/">XML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/XXE/">XXE</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webshell查杀/">webshell查杀</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/万能Cookie/">万能Cookie</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码审计/">代码审计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/信息收集/">信息收集</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安全编程/">安全编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/安全配置/">安全配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/密码找回/">密码找回</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/小tips/">小tips</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/应急响应/">应急响应</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传/">文件上传</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件包含/">文件包含</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/未授权访问/">未授权访问</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/漏洞防御/">漏洞防御</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/病毒木马查杀/">病毒木马查杀</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编程/">编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逻辑漏洞/">逻辑漏洞</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/错误的权限验证/">错误的权限验证</a></li></ul>
                     </div>
                 </section>
                 
@@ -396,7 +396,7 @@ expect:// — 处理交互式的流
 <li>因为包含的可以是任意文件，log文件也是可以，当我们提交恶意代码时也会被记录，于是包含记录了恶意代码的log文件是个好主意</li>
 <li>包含/proc/self/environ文件： 这需要PHP运行作为一个具有cgion /proc伪文件的系统且PHP脚本有权访问这些伪文件</li>
 <li>包含会话文件-这需要攻击者能控制会话中的任何字符串值（注入代码，例如<code>phpinfo（）</code>），会话文件必须存放在serializedsession文件且PHP脚本能够访问会话文件（通常是/tmp/ sessSESSIONID文件</li>
-<li>包含其他由php应用创建的文件，只要你能想到的，都可以尝试创建 然后包含他，比如数据库文件，缓存文件，应用程序级别的日志<br><br><strong>注意：</strong>在包含日志文件时一直不成功，主要是由于直接在浏览器请求的URL会URL编码后才记录到日志文件中，可通过burp来访问网站，即可绕过浏览器URL编码。文件包含和文件上传更配哦</li>
+<li>包含其他由php应用创建的文件，只要你能想到的，都可以尝试创建 然后包含他，比如数据库文件，缓存文件，应用程序级别的日志<br><br><strong>注意：</strong>在包含日志文件时一直不成功，主要是由于直接在浏览器请求的URL会URL编码后才记录到日志文件中，可通过burp来访问网站，即可绕过浏览器URL编码。文件包含和文件上传更配哦<br><br><strong>一些姿势：</strong><br><br><a href="http://pnig0s1992.blog.51cto.com/393390/400182" target="_blank" rel="external">LFI通过proc/self/environ直接获取webshell</a><br><br><a href="http://www.am0s.com/penetration/131.html" target="_blank" rel="external">如何优雅的把lfi转化为rce</a><br><br><a href="http://wooyun.jozxing.cc/static/drops/web-13249.html" target="_blank" rel="external">时间竞争文件包含</a></li>
 </ul>
 
       
@@ -409,7 +409,7 @@ expect:// — 处理交互式的流
         <p><span>本文标题:</span><a href="/2017/02/06/文件包含总结及防御/">文件包含总结及防御</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">drops0hong</a></p>
         <p><span>发布时间:</span>2017-02-06, 00:00:00</p>
-        <p><span>最后更新:</span>2017-02-14, 13:43:42</p>
+        <p><span>最后更新:</span>2017-02-28, 18:17:24</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/02/06/文件包含总结及防御/" title="文件包含总结及防御">http://wkh.dropsec.xyz/2017/02/06/文件包含总结及防御/</a>
             <span class="copy-path" data-clipboard-text="原文: http://wkh.dropsec.xyz/2017/02/06/文件包含总结及防御/　　作者: drops0hong" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -534,7 +534,7 @@ expect:// — 处理交互式的流
         
     </div>
 
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/02/22/密码找回逻辑漏洞研究/">密码找回逻辑漏洞研究</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/21/浅析XXE攻击/">浅析XXE攻击</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/14/java学习笔记/">java学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/14/文件上传/">文件上传</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/06/文件包含总结及防御/">文件包含总结及防御</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/04/应急笔记/">应急笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/一次不想说的比赛/">一次不想说的比赛</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/mongodb未授权访问/">大量Mongodb被挟持原因分析</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/02/28/一次线下攻防web题代码审计/">一次线下攻防web题代码审计</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/22/密码找回逻辑漏洞研究/">密码找回逻辑漏洞研究</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/21/浅析XXE攻击/">浅析XXE攻击</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/14/java学习笔记/">java学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/14/文件上传/">文件上传</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/06/文件包含总结及防御/">文件包含总结及防御</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/04/应急笔记/">应急笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/一次不想说的比赛/">一次不想说的比赛</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/下载站点页面小技巧/">一次不想说的比赛</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/mongodb未授权访问/">大量Mongodb被挟持原因分析</a></li></ul>
 
 
 
