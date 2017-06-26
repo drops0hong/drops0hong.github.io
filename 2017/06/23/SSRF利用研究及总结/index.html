@@ -15,12 +15,21 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="drops0hong's Blog">
-<meta property="og:url" content="http://wkh.dropsec.xyz/tags/错误的权限验证/index.html">
+<meta name="description" content="以前只是简单的了解SSRF，并没有进行深入的学习，经过两天的研究与实现，将收获总结博客中。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SSRF利用研究及总结">
+<meta property="og:url" content="http://wkh.dropsec.xyz/2017/06/23/SSRF利用研究及总结/index.html">
 <meta property="og:site_name" content="drops0hong's Blog">
+<meta property="og:description" content="以前只是简单的了解SSRF，并没有进行深入的学习，经过两天的研究与实现，将收获总结博客中。">
+<meta property="og:image" content="http://oacefhv01.bkt.clouddn.com/SSRF01.png">
+<meta property="og:image" content="http://oacefhv01.bkt.clouddn.com/SSRF02.png">
+<meta property="og:image" content="http://oacefhv01.bkt.clouddn.com/SSRF03.png">
+<meta property="og:image" content="http://oacefhv01.bkt.clouddn.com/SSRF04.png">
+<meta property="og:updated_time" content="2017-06-26T04:02:00.966Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="drops0hong's Blog">
+<meta name="twitter:title" content="SSRF利用研究及总结">
+<meta name="twitter:description" content="以前只是简单的了解SSRF，并没有进行深入的学习，经过两天的研究与实现，将收获总结博客中。">
+<meta name="twitter:image" content="http://oacefhv01.bkt.clouddn.com/SSRF01.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -52,7 +61,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>Tag: 错误的权限验证 | drops0hong&#39;s Blog</title>
+<title>SSRF利用研究及总结 | drops0hong&#39;s Blog</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -62,9 +71,9 @@
         fancybox: true,
         animate: true,
         isHome: false,
-        isPost: false,
+        isPost: true,
         isArchive: false,
-        isTag: true,
+        isTag: false,
         isCategory: false,
         fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
         scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
@@ -266,60 +275,249 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap">
+      <div class="body-wrap"><article id="post-SSRF利用研究及总结" class="article article-type-post" itemscope itemprop="blogPost">
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-          <div class="article-meta">
-              <a href="/2017/01/16/一次不想说的比赛/" class="archive-article-date">
-      <time datetime="2017-01-15T16:00:00.000Z" itemprop="datePublished">01-16</time>
+    <div class="article-meta">
+      <a href="/2017/06/23/SSRF利用研究及总结/" class="article-date">
+      <time datetime="2017-06-22T16:00:00.000Z" itemprop="datePublished">2017-06-23</time>
 </a>
 
 
-        </div>
-         
+    </div>
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/01/16/一次不想说的比赛/">一次不想说的比赛</a>
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      SSRF利用研究及总结
     </h1>
   
 
-        <div class="article-info info-on-archive">
-          
+      </header>
+      
+      <div class="article-info article-info-post">
+        
     <div class="article-category tagcloud">
     <a class="article-category-link" href="/categories/WEB安全/">WEB安全</a>
     </div>
 
 
-          
+        
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/万能Cookie/">万能Cookie</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/错误的权限验证/">错误的权限验证</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SSRF/">SSRF</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/漏洞防御/">漏洞防御</a></li></ul>
     </div>
 
-        </div>
         <div class="clearfix"></div>
-    </header>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <blockquote>
+<p>以前只是简单的了解SSRF，并没有进行深入的学习，经过两天的研究与实现，将收获总结博客中。<br><a id="more"></a></p>
+<h3 id="什么是SSRF漏洞？"><a href="#什么是SSRF漏洞？" class="headerlink" title="什么是SSRF漏洞？"></a>什么是SSRF漏洞？</h3><p>利用存在缺陷的Web应用做为代理攻击远程或本地的服务器，这种形式的攻击被称为SSRF。</p>
+<h3 id="SSRF产生原理"><a href="#SSRF产生原理" class="headerlink" title="SSRF产生原理"></a>SSRF产生原理</h3><p>通常存在于需要请求外部内容的逻辑中，比如本地化网络图片、XML解析时的外部实体注入、软件的离线下载，链接分享或者title，在线网页翻译，在线代理浏览器等。当攻击者传入一个未经验证的URL，后端代码直接请求这个URL，将会造成SSRF漏洞。</p>
+<h3 id="SSRF的危害"><a href="#SSRF的危害" class="headerlink" title="SSRF的危害"></a>SSRF的危害</h3><ul>
+<li>内网端口扫描</li>
+<li>内网Web应用指纹识别<ul>
+<li>通过访问内网Web应用robots.txt等方式辨别cms的类型及版本然后根据公开的漏洞去攻击内网服务器</li>
+</ul>
+</li>
+<li>读取本地文件</li>
+<li>读取远程文件</li>
+<li>攻击内网其他应用<h3 id="SSRF挖掘"><a href="#SSRF挖掘" class="headerlink" title="SSRF挖掘"></a>SSRF挖掘</h3></li>
+<li>社交分享功能</li>
+<li>转码服务</li>
+<li>在线翻译</li>
+<li>在线代理浏览器</li>
+<li>图片加载/下载</li>
+<li>图片/文章收藏功能</li>
+<li>API或调用外部URL的功能<h3 id="URL的构成"><a href="#URL的构成" class="headerlink" title="URL的构成"></a>URL的构成</h3>要谈SSRF的绕过首先就要对URL的构成有一定的了解。<br><br><strong><a href="http://admin:123456@wkh.dropsec.xyz:80/xx/test.php?id=1">http://admin:123456@wkh.dropsec.xyz:80/xx/test.php?id=1</a></strong></li>
+</ul>
+</blockquote>
+<ul>
+<li>第一部分 协议</li>
+<li>admin:123456访问所带的用户信息</li>
+<li>第三部分 域名</li>
+<li>第四部分 端口号</li>
+<li>第五部分 目录及文件</li>
+<li>第六部分 参数<h3 id="SSRF绕过技巧"><a href="#SSRF绕过技巧" class="headerlink" title="SSRF绕过技巧"></a>SSRF绕过技巧</h3></li>
+<li>IP地址转换绕过<ul>
+<li>数字地址(十进制)：127.0.0.1-&gt;2130706433</li>
+<li>十六进制：127.0.0.1-&gt;0x7F000001或0x7F.00.00.01或0x7F.0x00.0x00.0x01</li>
+<li>八进制： 127.0.0.1-&gt;0177.0.0.1或0177.00.00.01</li>
+<li>省略写法：127.0.0.1-&gt;127.1</li>
+</ul>
+</li>
+<li>URL跳转绕过<ul>
+<li>在自己的网站上放一个重定向到127.0.0.1等内网地址的文件，然后访问</li>
+</ul>
+</li>
+<li>短网址绕过<ul>
+<li>随便找一个短网址转换网站即可转换成短网址，<br>如www.baidu.com.index.php-&gt;<a href="http://0x9.me/H27bC" target="_blank" rel="external">http://0x9.me/H27bC</a></li>
+</ul>
+</li>
+<li>xip.io绕过<ul>
+<li>127.0.0.1.xip.io</li>
+<li>www.127.0.0.1.xip.io</li>
+<li>xxx.127.0.0.1.xip.io</li>
+<li>fuzz.xxx.127.0.0.1.xip.io</li>
+</ul>
+</li>
+<li>使用@绕过<ul>
+<li>admin:123456@127.0.0.1</li>
+<li>admin:123456@127.0.0.1.xip.io</li>
+<li>… …<h3 id="实例演示"><a href="#实例演示" class="headerlink" title="实例演示"></a>实例演示</h3>为了实践绕过技巧，在互联网上找了存在SSRF的网站，找了一些在线代理网站。<br><br>127.0.0.1、127.0.0.1.xip.io都不行：<br><img src="http://oacefhv01.bkt.clouddn.com/SSRF01.png" alt="1"><br><br>尝试www.127.0.0.1.xip.io、十六进制、八进制都可以绕过：<br><img src="http://oacefhv01.bkt.clouddn.com/SSRF02.png" alt="2"><br><img src="http://oacefhv01.bkt.clouddn.com/SSRF03.png" alt="3"><br><img src="http://oacefhv01.bkt.clouddn.com/SSRF04.png" alt="4"><br><br>利用以上绕过方法还挖掘到了微软的一个SSRF，具体细节不方便公布。</li>
+</ul>
+</li>
+</ul>
+<h3 id="SSRF防御"><a href="#SSRF防御" class="headerlink" title="SSRF防御"></a>SSRF防御</h3><p>以PHP为例<br></p>
+<ul>
+<li>1、禁止跳转(请求时设置redirect=false)</li>
+<li>2、使用gethostname()判断是否为内网IP<br>gethostnane获取到的是各种形式IP转换后的真实IP。</li>
+</ul>
+
+      
+    </div>
+    
   </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/06/23/SSRF利用研究及总结/">SSRF利用研究及总结</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">drops0hong</a></p>
+        <p><span>发布时间:</span>2017-06-23, 00:00:00</p>
+        <p><span>最后更新:</span>2017-06-26, 12:02:00</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/06/23/SSRF利用研究及总结/" title="SSRF利用研究及总结">http://wkh.dropsec.xyz/2017/06/23/SSRF利用研究及总结/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://wkh.dropsec.xyz/2017/06/23/SSRF利用研究及总结/　　作者: drops0hong" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/06/21/下载站点页面小技巧/">
+                    下载站点页面小技巧
+                </a>
+            </div>
+        
+    </nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是SSRF漏洞？"><span class="toc-number">1.</span> <span class="toc-text">什么是SSRF漏洞？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SSRF产生原理"><span class="toc-number">2.</span> <span class="toc-text">SSRF产生原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SSRF的危害"><span class="toc-number">3.</span> <span class="toc-text">SSRF的危害</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SSRF挖掘"><span class="toc-number">4.</span> <span class="toc-text">SSRF挖掘</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#URL的构成"><span class="toc-number">5.</span> <span class="toc-text">URL的构成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SSRF绕过技巧"><span class="toc-number">6.</span> <span class="toc-text">SSRF绕过技巧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实例演示"><span class="toc-number">7.</span> <span class="toc-text">实例演示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SSRF防御"><span class="toc-number">8.</span> <span class="toc-text">SSRF防御</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
 
     
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"SSRF利用研究及总结　| drops0hong's Blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
 
+    
+</div>
+
+
+
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <div id="comment-box" ></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2017/06/23/SSRF利用研究及总结/" data-title="SSRF利用研究及总结" data-url="http://wkh.dropsec.xyz/2017/06/23/SSRF利用研究及总结/"></div>
+    <script>
+        var duoshuoQuery = {short_name:"null"};
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            s.async = true; s.charset = 'UTF-8';
+            (d.head || d.body).appendChild(s);
+        }
+
+        
+    </script>
+    
+    <script> loadComment(); </script>
+
+</div>
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/06/21/下载站点页面小技巧/" title="下一篇: 下载站点页面小技巧">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/06/23/SSRF利用研究及总结/">SSRF利用研究及总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/21/下载站点页面小技巧/">下载站点页面小技巧</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/22/密码找回逻辑漏洞研究/">密码找回逻辑漏洞研究</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/21/浅析XXE攻击/">浅析XXE攻击</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/14/java学习笔记/">java学习笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/14/文件上传/">文件上传</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/06/文件包含总结及防御/">文件包含总结及防御</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/04/应急笔记/">应急笔记</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/mongodb未授权访问/">大量Mongodb被挟持原因分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/一次不想说的比赛/">一次不想说的比赛</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
 </div>
       <footer id="footer">
     <div class="outer">
